@@ -47,6 +47,7 @@ class SpotifyGenerator:
         options.add_argument("--lang=en")
         options.add_argument("--headless=new")
         options.add_argument("--disable-gpu")
+        options.add_argument("--user-data-dir=/tmp/selenium_profile")
 
 
         ## Set Up Selenium Chrome driver
