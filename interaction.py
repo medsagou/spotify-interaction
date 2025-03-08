@@ -54,7 +54,7 @@ class SpotifyGenerator:
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
 
-        service = Service("/usr/bin/chromedriver")
+        service = Service("/usr/local/bin/chromedriver")
         ## Set Up Selenium Chrome driver
         if user == "" or password == "" or proxy == "" or port == "":
             print("getting the driver...")
