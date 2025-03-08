@@ -137,9 +137,15 @@ if __name__ == "__main__":
     print("starting")
     thread1 = threading.Thread(target=main)
     thread2 = threading.Thread(target=main)
+    thread11 = threading.Thread(target=main)
+    thread22 = threading.Thread(target=main)
 
     thread2.start()
     thread1.start()
+    thread22.start()
+    thread11.start()
 
     thread1.join()
     thread2.join()
+    thread11.join()
+    thread22.join()
