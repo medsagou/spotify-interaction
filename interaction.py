@@ -335,6 +335,7 @@ class SpotifyGenerator:
         else:
             email_field = self.driver.find_element(By.ID, "username")
             email_field.send_keys(self.email)
+            self.remove_descrections()
             self.submit()
 
         while True:
