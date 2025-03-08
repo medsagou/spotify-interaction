@@ -222,7 +222,8 @@ class SpotifyGenerator:
             submit = self.driver.find_element(By.XPATH, '//*[@data-testid="submit"]')
             # print('working')
             time.sleep(1)
-            submit.click()
+            self.driver.execute_script("arguments[0].click();", submit)
+            # submit.click()
         return
 
     def check_login_signup(self):
@@ -335,13 +336,13 @@ class SpotifyGenerator:
         else:
             email_field = self.driver.find_element(By.ID, "username")
             email_field.send_keys(self.email)
-            try:
-                # Find and click the cookie accept button
-                cookie_button = self.driver.find_element(By.ID, "onetrust-pc-btn-handler")
-                cookie_button.click()
-                time.sleep(2)  # Wait after closing popup
-            except:
-                print("No cookie banner found")
+            # try:
+            #     # Find and click the cookie accept button
+            #     cookie_button = self.driver.find_element(By.ID, "onetrust-pc-btn-handler")
+            #     cookie_button.click()
+            #     time.sleep(2)  # Wait after closing popup
+            # except:
+            #     print("No cookie banner found")
             self.submit()
 
         while True:
