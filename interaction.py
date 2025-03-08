@@ -118,7 +118,6 @@ class SpotifyGenerator:
         except:
             print("no text found")
             print(self.driver.find_element("tag name", "body").text)
-)
             return False
 
 
