@@ -246,6 +246,8 @@ class SpotifyGenerator:
                 ))
         except Exception as e:
             print("error with captcha, retrying..")
+            print(self.driver.find_element("tag name", "body").text)
+
             self.driver.refresh()
             self.hit_continue()
         else:
