@@ -49,13 +49,13 @@ class SpotifyGenerator:
         options.add_argument("--headless=new")
         options.add_argument("--disable-gpu")
         # options.add_argument("--guest")
-        options.add_argument("--user-data-dir=/tmp/selenium_profile")
+        # options.add_argument("--user-data-dir=/tmp/selenium_profile")
 
-        service = Service("/usr/bin/chromedriver")
+        # service = Service("/usr/bin/chromedriver")
         ## Set Up Selenium Chrome driver
         if user == "" or password == "" or proxy == "" or port == "":
             print("getting the driver...")
-            driver = webdriver.Chrome(options=options, service=service)
+            driver = webdriver.Chrome(options=options)
         else:
             proxy_options = {
                 'proxy': {
