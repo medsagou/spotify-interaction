@@ -7,7 +7,9 @@ Created on Sat Feb  4 14:25:58 2023
 import os
 import os.path
 from os import chdir, mkdir
+import threading
 
+lock = threading.Lock()
 class C_Dossier():
 
    
@@ -127,6 +129,11 @@ class C_Fichier():
         with open(self.nomFichier,'w') as F:   # Ouverture du fichier en mode écriture : à ce niveau si le fichier existe il va être écrasé
             F.writelines(Liste)    
 
+    def list_to_fichier(self, Liste):
+        with open(self.nomFichier,'w') as F:
+            for l in Liste:
+                F.write(l)
+                F.write("\n")
     def str_to_fichier(self,string):
         with open(self.nomFichier,'a') as F:   # Ouverture du fichier en mode écriture : à ce niveau si le fichier existe il va être écrasé
              F.write(string)
@@ -135,10 +142,11 @@ class C_Fichier():
              
     def Liste_to_str_to_Fichier(self,Liste_1): 
        Liste = self.Liste_to_Str1(Liste_1)
-       with open(self.nomFichier,'a') as F:   # Ouverture du fichier en mode écriture : à ce niveau si le fichier existe il va être écrasé
-            
-            F.writelines(Liste)   
-            F.writelines('\n')
+       with lock:
+           with open(self.nomFichier,'a') as F:   # Ouverture du fichier en mode écriture : à ce niveau si le fichier existe il va être écrasé
+
+                F.writelines(Liste)
+                F.writelines('\n')
     #____________________________________________________________________________________________________________________________________________________________
     # Lire le contenu d'un fichier et le retourne en le plaçant dans une liste
     def Fichier_to_Liste(self):  # extration d'une liste depuis un fichier  : chaque ligne du fichier représente un élément de cette liste

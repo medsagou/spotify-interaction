@@ -9,7 +9,7 @@ import requests
 from bs4 import BeautifulSoup
 from selenium.webdriver.common.action_chains import ActionChains
 import time
-
+from datetime import datetime
 # from selenium import webdriver
 from seleniumwire import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -30,7 +30,7 @@ from class_fichier import C_Fichier
 import os
 curr_dir = os.getcwd()
 class SpotifyGenerator:
-    def __init__(self, password="yourPassword"):
+    def __init__(self, password="yourPassword88"):
         self.driver = ""
         self.email = ""
         self.password = password
@@ -41,40 +41,47 @@ class SpotifyGenerator:
         self.extenstion = "xk-en"
         self.address_file_name = "address.txt"
 
-    def get_driver(self):
+    def get_driver(self, user="", password="", proxy="", port=""):
         options = webdriver.ChromeOptions()
         options.add_argument("--load-extension={0}".format(curr_dir + "/CapSolver"))
         options.add_argument("--lang=en")
-        # options.add_argument("--headless=new")
+        options.add_argument("--headless=new")
         options.add_argument("--disable-gpu")
-        proxy_options = {
-            'proxy': {
-                'http': 'http://kheYdSdd:LGsFYFAY@45.199.205.7:64848',
-                'https': 'http://kheYdSdd:LGsFYFAY@45.199.205.7:64848',
-                'no_proxy': 'localhost:127.0.0.1'
-            }
-        }
+
 
         ## Set Up Selenium Chrome driver
-        # driver = webdriver.Chrome(seleniumwire_options=proxy_options)
-        driver = webdriver.Chrome(options=options)
+        if user == "" or password == "" or proxy == "" or port == "":
+            driver = webdriver.Chrome(options=options)
+        else:
+            proxy_options = {
+                'proxy': {
+                    'http': f'http://{user}:{password}@{proxy}:{port}',
+                    'https': f'http://{user}:{password}@{proxy}:{port}',
+                    'no_proxy': 'localhost:127.0.0.1'
+                }
+            }
+            driver = webdriver.Chrome(seleniumwire_options=proxy_options, options=options)
+
 
         self.driver = driver
         self.driver.maximize_window()
         # self.driver.get("https://www.google.com/recaptcha/api2/demo")
+        # self.driver.get("https://www.myip.com/")
+        # time.sleep(200)
         # self.check_capSolver()
         # self.driver.get("https://nowsecure.nl")
         # self.driver.get("https://bot.sannysoft.com/")
         # time.sleep(600)
 
-        self.driver.get(f"https://www.spotify.com/signup")
         # time.sleep(300)
         # print("NOTE: DRIVER CONNECTED")
         # print("here")
         # driver = webdxriver.Chrome()
         print("NOTE: DRIVER CONNECTED")
         return
-
+    def get_site(self, site = "https://www.spotify.com/signup"):
+        self.driver.get(site)
+        return
     def check_capSolver(self):
         while True:
             try:
@@ -115,7 +122,10 @@ class SpotifyGenerator:
                 print("no Continue text found")
             else:
                 continue_btn = self.driver.find_element(By.XPATH,"//button[span[text()='Continue']]")
-                continue_btn.click()
+
+                actions = ActionChains(self.driver)
+                actions.move_to_element(continue_btn).pause(0.5).click().perform()
+                # continue_btn.click()
                 print("continue clicked")
                 while True:
                     try:
@@ -126,7 +136,6 @@ class SpotifyGenerator:
                         continue_btn = self.driver.find_element(By.XPATH, "//button[span[text()='Continue']]")
                         continue_btn.click()
                     else:
-                        print("we've finished!!")
                         break
 
         else:
@@ -183,6 +192,16 @@ class SpotifyGenerator:
 
         return
 
+    def submit_login(self):
+        try:
+            cookies_button = self.driver.find_element(
+                By.ID, "login-button"
+            )
+        except:
+            print("NOTE: No submit found")
+        else:
+            cookies_button.click()
+            print("Form submitted")
     def submit(self):
         try:
             WebDriverWait(self.driver, 10).until(
@@ -199,6 +218,35 @@ class SpotifyGenerator:
             submit.click()
         return
 
+    def check_login_signup(self):
+        try:
+            WebDriverWait(self.driver, 2).until(
+                EC.visibility_of_element_located(
+                    (By.XPATH, "//*[contains(text(), 'Something went wrong')]")
+                ))
+        except:
+            pass
+        else:
+            print("Something went wrong with captcha, retrying..")
+            self.driver.refresh()
+            self.hit_continue()
+        try:
+            WebDriverWait(self.driver, 30).until(
+                EC.presence_of_element_located(
+                    (By.CSS_SELECTOR, '[aria-controls="profileMenu"]')
+                ))
+        except Exception as e:
+            print("error with captcha, retrying..")
+            self.driver.refresh()
+            self.hit_continue()
+        else:
+            print("Login/signup success")
+            self.save_data()
+
+    def save_data(self):
+        data_file = C_Fichier('data.txt')
+        data_file.Liste_to_str_to_Fichier([self.email, self.password, datetime.now().strftime("%Y-%m-%d")])
+
     def fill_displayed_name(self):
         try:
             WebDriverWait(self.driver, 10).until(
@@ -211,9 +259,19 @@ class SpotifyGenerator:
             display_name_field.send_keys("your name")
         return
 
+    def fill_password_login(self, password_text):
+        try:
+            WebDriverWait(self.driver, 100).until(
+                EC.presence_of_element_located((By.ID, "login-password"))
+            )
+        except:
+            print("NOTE: No password there")
+
+        else:
+            password = self.driver.find_element(By.ID, "login-password")
+            password.send_keys(password_text)
     def fill_password(self):
 
-        passwordtext = "yourPassword88"
         try:
             WebDriverWait(self.driver, 100).until(
                 EC.presence_of_element_located((By.ID, "new-password"))
@@ -223,7 +281,7 @@ class SpotifyGenerator:
 
         else:
             password = self.driver.find_element(By.ID, "new-password")
-            password.send_keys(passwordtext)
+            password.send_keys(self.password)
 
         self.submit()
         try:
@@ -248,6 +306,18 @@ class SpotifyGenerator:
         # time.sleep(100)
         return
 
+
+    def fill_email_login(self):
+        try:
+            WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.ID, "login-username"))
+            )
+        except:
+            print("we didn't find email field")
+        else:
+            email_field = self.driver.find_element(By.ID, "login-username")
+            email_field.send_keys(self.email)
+            print('email done')
     def fill_email_and_confrm(self):
         try:
             WebDriverWait(self.driver, 100).until(
@@ -476,7 +546,7 @@ class SpotifyGenerator:
     def export_data(self):
         return [self.email, self.password]
 
-    def close_tab(self):
+    def quit(self):
         self.driver.quit()
 
     def main_spotify(self):
