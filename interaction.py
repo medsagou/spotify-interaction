@@ -335,7 +335,13 @@ class SpotifyGenerator:
         else:
             email_field = self.driver.find_element(By.ID, "username")
             email_field.send_keys(self.email)
-            self.remove_descrections()
+            try:
+                # Find and click the cookie accept button
+                cookie_button = self.driver.find_element(By.ID, "onetrust-pc-btn-handler")
+                cookie_button.click()
+                time.sleep(2)  # Wait after closing popup
+            except:
+                print("No cookie banner found")
             self.submit()
 
         while True:

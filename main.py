@@ -125,14 +125,14 @@ def main():
     return
 
 if __name__ == "__main__":
-    # main()
-    import threading
-    print("starting")
-    thread1 = threading.Thread(target=main)
-    thread2 = threading.Thread(target=main)
-
-    thread2.start()
-    thread1.start()
-
-    thread1.join()
-    thread2.join()
+    main()
+    # import threading
+    # print("starting")
+    # thread1 = threading.Thread(target=main)
+    # thread2 = threading.Thread(target=main)
+    #
+    # thread2.start()
+    # thread1.start()
+    #
+    # thread1.join()
+    # thread2.join()
