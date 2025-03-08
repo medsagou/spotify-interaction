@@ -367,12 +367,14 @@ class SpotifyGenerator:
             By.CSS_SELECTOR, ".Indicator-sc-hjfusp-0"
         )
         if len(gender_radiobutton) != 0:
-            gender_radiobutton[0].click()
+            # gender_radiobutton[0].click()
+            self.driver.execute_script("arguments[0].click();", gender_radiobutton[0])
         else:
             gender_radiobutton2 = self.driver.find_elements(
                 By.CSS_SELECTOR, ".Indicator-sc-hjfusp-0.dFGMcY"
             )
-            gender_radiobutton2[0].click()
+            # gender_radiobutton2[0].click()
+            self.driver.execute_script("arguments[0].click();", gender_radiobutton2[0])
         self.submit()
 
     def submit_signup_button(self):
@@ -394,7 +396,8 @@ class SpotifyGenerator:
             By.CSS_SELECTOR,
             ".ButtonInner-sc-14ud5tc-0.dqLIWu.encore-bright-accent-set.SignupButton___StyledButtonPrimary-cjcq5h-1.jazsmO",
         )
-        submit_button[0].click()
+        # submit_button[0].click()
+        self.driver.execute_script("arguments[0].click();", submit_button[0])
         print("NOTE: FORM SUBMITED")
         # time.sleep(5)
         # try:
