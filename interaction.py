@@ -227,6 +227,7 @@ class SpotifyGenerator:
         return
 
     def check_login_signup(self):
+        print("checking login/signup...")
         try:
             WebDriverWait(self.driver, 2).until(
                 EC.visibility_of_element_located(
