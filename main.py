@@ -64,7 +64,8 @@ def main():
     playlist_links = [item.strip() for item in C_Fichier("playlists.txt").Fichier_to_Liste()]
 
 
-    sp.get_driver(user="kheYdSdd", password="LGsFYFAY", proxy="45.199.205.7", port='64848')
+    # sp.get_driver(user="kheYdSdd", password="LGsFYFAY", proxy="45.199.205.7", port='64848')
+    sp.get_driver()
     sp.get_site()
     sp.get_Email_from_yopmail()
     #sp.go_to_signup()

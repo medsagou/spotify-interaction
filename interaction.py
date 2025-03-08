@@ -50,11 +50,12 @@ class SpotifyGenerator:
         options.add_argument("--disable-gpu")
         # options.add_argument("--guest")
         # ubuntu
-        options.add_argument("--user-data-dir=/tmp/selenium_profile")
+        # options.add_argument("--user-data-dir=/tmp/selenium_profile")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
 
-        service = Service("/usr/local/bin/chromedriver")
+        # service = Service("/usr/local/bin/chromedriver")
+        service = Service()
         ## Set Up Selenium Chrome driver
         if user == "" or password == "" or proxy == "" or port == "":
             print("getting the driver...")
@@ -212,7 +213,7 @@ class SpotifyGenerator:
     def submit(self):
         try:
             WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located((By.XPATH, '//*[@data-testid="submit"]'))
+                EC.element_to_be_clickable((By.XPATH, '//*[@data-testid="submit"]'))
             )
         except:
             print("NOTE: No submit there")
@@ -221,7 +222,6 @@ class SpotifyGenerator:
             submit = self.driver.find_element(By.XPATH, '//*[@data-testid="submit"]')
             # print('working')
             time.sleep(1)
-
             submit.click()
         return
 
