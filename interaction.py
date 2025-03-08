@@ -49,7 +49,10 @@ class SpotifyGenerator:
         options.add_argument("--headless=new")
         options.add_argument("--disable-gpu")
         # options.add_argument("--guest")
+        # ubuntu
         options.add_argument("--user-data-dir=/tmp/selenium_profile")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
 
         service = Service("/usr/bin/chromedriver")
         ## Set Up Selenium Chrome driver
@@ -64,7 +67,7 @@ class SpotifyGenerator:
                     'no_proxy': 'localhost:127.0.0.1'
                 }
             }
-            driver = webdriver.Chrome(seleniumwire_options=proxy_options, options=options)
+            driver = webdriver.Chrome(seleniumwire_options=proxy_options, options=options, service=service)
 
 
         self.driver = driver
