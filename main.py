@@ -100,7 +100,7 @@ def main():
             ))
     except:
         print("something not working")
-        print(sp.driver.find_element("tag name", "body").text)
+        # print(sp.driver.find_element("tag name", "body").text)
         sp.quit()
     else:
 

@@ -117,7 +117,7 @@ class SpotifyGenerator:
                 return False
         except:
             print("no text found")
-            print(self.driver.find_element("tag name", "body").text)
+            # print(self.driver.find_element("tag name", "body").text)
             return False
 
 
@@ -248,8 +248,8 @@ class SpotifyGenerator:
         except Exception as e:
             print("error with captcha, retrying..")
 
-            print(self.driver.find_element("tag name", "body").text)
             # print(self.driver.find_element("tag name", "body").text)
+
 
             self.driver.refresh()
             self.hit_continue()
