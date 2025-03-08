@@ -168,5 +168,5 @@ cc.txt
 !requirements.txt
 !requirements01.txt
 
-**/config.js
+#**/config.js
 #CapSolver/
