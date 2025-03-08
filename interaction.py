@@ -51,6 +51,7 @@ class SpotifyGenerator:
 
         ## Set Up Selenium Chrome driver
         if user == "" or password == "" or proxy == "" or port == "":
+            print("getting the driver...")
             driver = webdriver.Chrome(options=options)
         else:
             proxy_options = {
@@ -64,7 +65,7 @@ class SpotifyGenerator:
 
 
         self.driver = driver
-        self.driver.maximize_window()
+        # self.driver.maximize_window()
         # self.driver.get("https://www.google.com/recaptcha/api2/demo")
         # self.driver.get("https://www.myip.com/")
         # time.sleep(200)
