@@ -117,7 +117,6 @@ class SpotifyGenerator:
                 return False
         except:
             print("no text found")
-            # print(self.driver.find_element("tag name", "body").text)
             return False
 
 
@@ -148,6 +147,7 @@ class SpotifyGenerator:
                         break
 
         else:
+            print(self.driver.find_element("tag name", "body").text)
             print("no captcha so no continue")
     def get_Email_from_yopmail(self):
         yopmail_url = "https://yopmail.com/email-generator"
