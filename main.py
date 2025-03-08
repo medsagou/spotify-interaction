@@ -64,21 +64,27 @@ def main():
     playlist_links = [item.strip() for item in C_Fichier("playlists.txt").Fichier_to_Liste()]
 
 
-    # sp.get_driver(user="kheYdSdd", password="LGsFYFAY", proxy="45.199.205.7", port='64848')
-    sp.get_driver()
+    sp.get_driver(user="kheYdSdd", password="LGsFYFAY", proxy="45.199.205.7", port='64848')
+    # sp.get_driver()
     sp.get_site()
     sp.get_Email_from_yopmail()
     #sp.go_to_signup()
     sp.fill_email_and_confrm()
     sp.remove_descrections()
+    print("fill password")
     sp.fill_password()
     # time.sleep(100)
+    print("fill name")
     sp.fill_displayed_name()
+    print("fill date of birth")
     sp.fill_date_of_birth()
+    print("fill gender")
     sp.fill_gender()
+    print("submit")
     sp.submit_signup_button()
     # sp.check_capSolver()
     sp.hit_continue()
+
     sp.check_login_signup()
 
     # sp.get_site("https://www.spotify.com/ng/family/join/invite/0cby9X4YCzCc7XB/".replace("invite", "confirm"))
@@ -125,14 +131,14 @@ def main():
     return
 
 if __name__ == "__main__":
-    main()
-    # import threading
-    # print("starting")
-    # thread1 = threading.Thread(target=main)
-    # thread2 = threading.Thread(target=main)
-    #
-    # thread2.start()
-    # thread1.start()
-    #
-    # thread1.join()
-    # thread2.join()
+    # main()
+    import threading
+    print("starting")
+    thread1 = threading.Thread(target=main)
+    thread2 = threading.Thread(target=main)
+
+    thread2.start()
+    thread1.start()
+
+    thread1.join()
+    thread2.join()
