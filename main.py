@@ -245,12 +245,12 @@ if __name__ == "__main__":
         i += 1
         thread1 = threading.Thread(target=main)
         thread2 = threading.Thread(target=main)
-        # thread22 = threading.Thread(target=main)
+        thread22 = threading.Thread(target=main)
 
         thread2.start()
         thread1.start()
-        # thread22.start()
+        thread22.start()
 
         thread1.join()
         thread2.join()
-        # thread22.join()
+        thread22.join()
