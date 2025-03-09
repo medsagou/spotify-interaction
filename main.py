@@ -199,11 +199,19 @@ def main():
 
     # CHECK THING
     try:
-        print("waiting for address to disappear...")
-        WebDriverWait(sp.driver, 100).until(
-            EC.invisibility_of_element_located(
-                (By.XPATH, '//*[@id="address"]')
-            ))
+        WebDriverWait(sp.driver, 50).until(
+            EC.presence_of_element_located((By.XPATH, '//a[contains(@href, "https://open.spotify.com/")]'))
+        )
+        print("Spotify link found!")
+    # except:
+    #     print("Spotify link not found within timeout.")
+    #
+    # try:
+    #     print("waiting for address to disappear...")
+    #     WebDriverWait(sp.driver, 100).until(
+    #         EC.invisibility_of_element_located(
+    #             (By.XPATH, '//*[@id="address"]')
+    #         ))
     except:
         print("something not working")
         print("-------------------------------------------------------------------------------------")
@@ -214,7 +222,7 @@ def main():
         exit()
     else:
         print("done")
-        time.sleep(300)
+        # time.sleep(3000)
         for link in playlist_links:
             sp.get_site(link)
             try:
