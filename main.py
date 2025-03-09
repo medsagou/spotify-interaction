@@ -20,14 +20,14 @@ from class_fichier import C_Fichier
 import os
 import asyncio
 
-from capmonstercloudclient import CapMonsterClient, ClientOptions
-from capmonstercloudclient.requests import RecaptchaV2ProxylessRequest
-from dotenv import load_dotenv
+# from capmonstercloudclient import CapMonsterClient, ClientOptions
+# from capmonstercloudclient.requests import RecaptchaV2ProxylessRequest
+# from dotenv import load_dotenv
 
-load_dotenv()
+# load_dotenv()
 
-api_key = os.getenv("api_key")
-key = os.getenv("key")
+# api_key = os.getenv("api_key")
+# key = os.getenv("key")
 def fill_address(driver, address):
     try:
         WebDriverWait(driver, 100).until(
@@ -68,13 +68,13 @@ def fill_address(driver, address):
                 #     driver.find_element(By.XPATH, "//button[//text()[contains(., 'Confirm')]]").click()
                 #     print("form confirmed again")
 
-client_option = ClientOptions(api_key=api_key)
-cap_monster_client = CapMonsterClient(options=client_option)
-
-async def cap_monster_solver(api_key = api_key, site = "", key=key):
-    recaptcha_req = RecaptchaV2ProxylessRequest(websiteUrl=site, websiteKey=key)
-    result = await cap_monster_client.solve_captcha(recaptcha_req)
-    return result['gRecaptchaResponse']
+# client_option = ClientOptions(api_key=api_key)
+# cap_monster_client = CapMonsterClient(options=client_option)
+#
+# async def cap_monster_solver(api_key = api_key, site = "", key=key):
+#     recaptcha_req = RecaptchaV2ProxylessRequest(websiteUrl=site, websiteKey=key)
+#     result = await cap_monster_client.solve_captcha(recaptcha_req)
+#     return result['gRecaptchaResponse']
 def main():
     sp = SpotifyGenerator()
     playlist_links = [item.strip() for item in C_Fichier("playlists.txt").Fichier_to_Liste()]
