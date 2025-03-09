@@ -33,7 +33,7 @@ print(USER, PASSWORD, PROXY, PORT)
 # key = os.getenv("key")
 def fill_address(driver, address):
     try:
-        WebDriverWait(driver, 100).until(
+        WebDriverWait(driver, 60).until(
             EC.presence_of_element_located((By.XPATH, '//*[@id="address"]'))
         )
     except:
@@ -51,7 +51,7 @@ def fill_address(driver, address):
         else:
             driver.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
             print("form submitted")
-            time.sleep(1)
+            # time.sleep(1)
             try:
                 WebDriverWait(driver, 10).until(
                     EC.visibility_of_element_located((By.XPATH, "//button[//text()[contains(., 'Confirm')]]"))
