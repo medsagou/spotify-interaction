@@ -243,7 +243,7 @@ class SpotifyGenerator:
             # submit.click()
         return
 
-    def check_login_signup(self):
+    def check_login_signup(self, login = 0):
         print("checking login/signup...")
         try:
             WebDriverWait(self.driver, 2).until(
@@ -276,7 +276,8 @@ class SpotifyGenerator:
             self.hit_continue()
         else:
             print("Login/signup success")
-            self.save_data()
+            if login == 0:
+                self.save_data()
 
     def save_data(self):
         data_file = C_Fichier('data.txt')

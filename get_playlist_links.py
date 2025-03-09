@@ -23,15 +23,17 @@ def get_playlist_link():
     sp.submit_login()
 
     # check Login
-    print("cheking login...")
-    sp.check_login_signup()
+    # print("cheking login...")
+    sp.check_login_signup(login=1)
 
+    print("Getting the Site")
     sp.get_site('https://open.spotify.com/')
 
 
 
     # Extract the aria-labelledby from the <div> inside each <li>
     labels = []
+    print("Start lopping...")
     while True:
         ul = WebDriverWait(sp.driver,30).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'ul[aria-label="Your Library"]')))
         list_items = ul.find_elements(By.TAG_NAME, "li")
