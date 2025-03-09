@@ -46,7 +46,7 @@ class SpotifyGenerator:
         options = webdriver.ChromeOptions()
         options.add_argument("--load-extension={0}".format(curr_dir + "/CapSolver"))
         options.add_argument("--lang=en")
-        # options.add_argument("--headless=new")
+        options.add_argument("--headless=new")
         options.add_argument("--disable-gpu")
 
         # options.add_argument("--disable-images")
