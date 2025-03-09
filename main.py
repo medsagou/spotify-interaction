@@ -22,10 +22,10 @@ import asyncio
 
 # from capmonstercloudclient import CapMonsterClient, ClientOptions
 # from capmonstercloudclient.requests import RecaptchaV2ProxylessRequest
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 
-# load_dotenv()
-
+load_dotenv()
+LINK = os.getenv("LINK")
 # api_key = os.getenv("api_key")
 # key = os.getenv("key")
 def fill_address(driver, address):
@@ -80,23 +80,17 @@ def main():
     playlist_links = [item.strip() for item in C_Fichier("playlists.txt").Fichier_to_Liste()]
 
 
-    # sp.get_driver(user="kheYdSdd", password="LGsFYFAY", proxy="45.199.205.7", port='64848')
-    sp.get_driver()
+    sp.get_driver(user="kheYdSdd", password="LGsFYFAY", proxy="45.199.205.7", port='64848')
+    # sp.get_driver()
     sp.get_site()
     sp.get_Email_from_yopmail()
     #sp.go_to_signup()
     sp.fill_email_and_confrm()
     sp.remove_descrections()
-    print("fill password")
     sp.fill_password()
-    # time.sleep(100)
-    print("fill name")
     sp.fill_displayed_name()
-    print("fill date of birth")
     sp.fill_date_of_birth()
-    print("fill gender")
     sp.fill_gender()
-    print("submit")
     sp.submit_signup_button()
 #     while True:
 #         try:
@@ -144,12 +138,13 @@ def main():
 #
 #     time.sleep(2000)
     # sp.check_capSolver()
-    sp.hit_continue()
+    if sp.hit_continue():
+        return
 
     sp.check_login_signup()
 
     # sp.get_site("https://www.spotify.com/ng/family/join/invite/0cby9X4YCzCc7XB/".replace("invite", "confirm"))
-    sp.get_site("https://www.spotify.com/ng/family/join/invite/0cby9X4YCzCc7XB/".replace("invite", "address"))
+    sp.get_site(LINK.replace("invite", "address"))
     address = "121 Apapa Rd, Ebute Metta, Lagos 101245, Lagos, Nigeria"
     fill_address(driver=sp.driver, address=address)
 
@@ -196,17 +191,19 @@ if __name__ == "__main__":
     # asyncio.run(main())
     import threading
     print("starting")
-    thread1 = threading.Thread(target=main)
-    thread2 = threading.Thread(target=main)
-    thread11 = threading.Thread(target=main)
-    thread22 = threading.Thread(target=main)
+    i = 0
+    while True:
+        if i == 100:
+            break
+        i += 1
+        thread1 = threading.Thread(target=main)
+        thread2 = threading.Thread(target=main)
+        thread22 = threading.Thread(target=main)
 
-    thread2.start()
-    thread1.start()
-    thread22.start()
-    thread11.start()
+        thread2.start()
+        thread1.start()
+        thread22.start()
 
-    thread1.join()
-    thread2.join()
-    thread11.join()
-    thread22.join()
+        thread1.join()
+        thread2.join()
+        thread22.join()

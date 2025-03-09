@@ -130,6 +130,7 @@ class SpotifyGenerator:
                 )
             except:
                 print("no Continue text found")
+                return False
             else:
                 continue_btn = self.driver.find_element(By.XPATH,"//button[span[text()='Continue']]")
 
