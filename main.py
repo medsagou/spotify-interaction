@@ -17,6 +17,17 @@ from selenium.webdriver.support import expected_conditions as EC
 from interaction import SpotifyGenerator
 from class_fichier import C_Fichier
 
+import os
+import asyncio
+
+from capmonstercloudclient import CapMonsterClient, ClientOptions
+from capmonstercloudclient.requests import RecaptchaV2ProxylessRequest
+from dotenv import load_dotenv
+
+load_dotenv()
+
+api_key = os.getenv("api_key")
+key = os.getenv("key")
 def fill_address(driver, address):
     try:
         WebDriverWait(driver, 100).until(
@@ -57,15 +68,20 @@ def fill_address(driver, address):
                 #     driver.find_element(By.XPATH, "//button[//text()[contains(., 'Confirm')]]").click()
                 #     print("form confirmed again")
 
+client_option = ClientOptions(api_key=api_key)
+cap_monster_client = CapMonsterClient(options=client_option)
 
-
+async def cap_monster_solver(api_key = api_key, site = "", key=key):
+    recaptcha_req = RecaptchaV2ProxylessRequest(websiteUrl=site, websiteKey=key)
+    result = await cap_monster_client.solve_captcha(recaptcha_req)
+    return result['gRecaptchaResponse']
 def main():
     sp = SpotifyGenerator()
     playlist_links = [item.strip() for item in C_Fichier("playlists.txt").Fichier_to_Liste()]
 
 
-    sp.get_driver(user="kheYdSdd", password="LGsFYFAY", proxy="45.199.205.7", port='64848')
-    # sp.get_driver()
+    # sp.get_driver(user="kheYdSdd", password="LGsFYFAY", proxy="45.199.205.7", port='64848')
+    sp.get_driver()
     sp.get_site()
     sp.get_Email_from_yopmail()
     #sp.go_to_signup()
@@ -82,6 +98,51 @@ def main():
     sp.fill_gender()
     print("submit")
     sp.submit_signup_button()
+#     while True:
+#         try:
+#             WebDriverWait(sp.driver, 10).until(
+#                 EC.invisibility_of_element_located((By.XPATH, "//*[contains(text(), 'Terms')]"))
+#             )
+#         except:
+#             print("still looping")
+#         else:
+#             break
+#     time.sleep(10)
+#     print("solving")
+#     # time.sleep(30000)
+#
+#     response = await cap_monster_solver(api_key=api_key, key=key, site=sp.driver.current_url)
+#     print("response", response)
+#     time.sleep(2)
+#     sp.driver.execute_script(f'document.getElementById("g-recaptcha-response").innerHTML="{response}";')
+#     # sp.driver.execute_script(f'document.getElementById("g-recaptcha-response").value ="{response}";')
+#     time.sleep(2)
+#     sp.driver.execute_script("""
+#     var recaptchaResponse = document.getElementById("g-recaptcha-response");
+#     recaptchaResponse.dispatchEvent(new Event("change", { bubbles: true }));
+# """)
+#     sp.driver.execute_script("""
+#     window.grecaptcha = {
+#         getResponse: function() { return arguments[0]; }
+#     };
+# """, response)
+#     sp.driver.execute_script("""
+#         var recaptchaCallback = document.createEvent('Event');
+#         recaptchaCallback.initEvent('change', true, true);
+#         document.getElementById("g-recaptcha-response").dispatchEvent(recaptchaCallback);
+#     """)
+#     print("check now")
+#     time.sleep(3)
+#     continue_btn = sp.driver.find_element(By.XPATH, "//button[span[text()='Continue']]")
+#
+#     actions = ActionChains(sp.driver)
+#     actions.move_to_element(continue_btn).pause(0.5).click().perform()
+#     # continue_btn.click()
+#     print("continue clicked")
+#
+#
+#
+#     time.sleep(2000)
     # sp.check_capSolver()
     sp.hit_continue()
 
@@ -132,7 +193,7 @@ def main():
     return
 
 if __name__ == "__main__":
-    # main()
+    # asyncio.run(main())
     import threading
     print("starting")
     thread1 = threading.Thread(target=main)

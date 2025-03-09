@@ -53,6 +53,7 @@ class SpotifyGenerator:
         # options.add_argument("--user-data-dir=/tmp/selenium_profile")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--disable-blink-features=AutomationControlled")
 
         # service = Service("/usr/local/bin/chromedriver")
         service = Service()
@@ -106,6 +107,7 @@ class SpotifyGenerator:
             )
             print("Recaptcha found.")
             print("solving...")
+            # return
             try:
                 WebDriverWait(self.driver, 100).until(
                     EC.visibility_of_element_located((By.XPATH, "//*[contains(text(), 'Captcha solved!')]"))
