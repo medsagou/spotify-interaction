@@ -27,10 +27,10 @@ from class_fichier import C_Fichier
 import os
 curr_dir = os.getcwd()
 class SpotifyGenerator:
-    def __init__(self, password="yourPassword88"):
+    def __init__(self):
         self.driver = ""
         self.email = ""
-        self.password = password
+        self.password = self.generate_password()
         # self.extenstion = "xk-en"
         self.cc_file_name = "cc.txt"
         self.regected_cc_file_name = "cc_regected.txt"
