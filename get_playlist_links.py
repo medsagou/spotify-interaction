@@ -40,7 +40,7 @@ def get_playlist_link():
     while True:
         ul = WebDriverWait(sp.driver,30).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'ul[aria-label="Your Library"]')))
         list_items = ul.find_elements(By.TAG_NAME, "li")
-        # print(list_items)
+        print(list_items)
         for li in list_items:
             try:
                 div = li.find_element(By.TAG_NAME, "div")
