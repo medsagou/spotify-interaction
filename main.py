@@ -24,7 +24,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 LINK = os.getenv("LINK")
-USER = str(os.getenv("USER"))
+USER = str(os.getenv("USER_PORXY"))
 PASSWORD = str(os.getenv("PASSWORD"))
 PROXY = str(os.getenv("PROXY"))
 PORT = str(os.getenv("PORT"))
