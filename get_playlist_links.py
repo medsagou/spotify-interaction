@@ -41,6 +41,7 @@ def get_playlist_link():
                 aria_labelledby = div.get_attribute("aria-labelledby")
                 if aria_labelledby:
                     labels.append(aria_labelledby)
+                    print(aria_labelledby)
             except:
                 pass
         time.sleep(2)
