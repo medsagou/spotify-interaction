@@ -35,7 +35,7 @@ def get_playlist_link():
     labels = []
     print("Start lopping...")
     print("-------------------------------------------------------------------------------------")
-    print(driver.find_element("tag name", "body").text)
+    print(sp.driver.find_element("tag name", "body").text)
     print("-------------------------------------------------------------------------------------")
     while True:
         ul = WebDriverWait(sp.driver,30).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'ul[aria-label="Your Library"]')))
