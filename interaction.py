@@ -20,7 +20,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from selenium.webdriver.support.ui import Select
-
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 from Module_cc import CC_Class
 from class_fichier import C_Fichier
@@ -54,6 +54,19 @@ class SpotifyGenerator:
         options.add_argument("--headless=new")
         options.add_argument("--disable-gpu")
         options.add_argument("--disable-images")
+        options.add_argument("--enable-features=NetworkService,NetworkServiceInProcess")
+
+        options.add_experimental_option("prefs", {
+            "profile.managed_default_content_settings.images": 2,
+            "profile.default_content_setting_values.stylesheets": 2,
+            "profile.default_content_setting_values.cookies": 2,
+            "profile.managed_default_content_settings.javascript": 1,
+        })
+
+        caps = DesiredCapabilities().CHROME
+        caps["pageLoadStrategy"] = "eager"
+
+
 
         # options.add_argument("--disk-cache-size=4096")
         # options.add_argument("--disk-cache-dir=/tmp/cache")
@@ -70,7 +83,7 @@ class SpotifyGenerator:
         ## Set Up Selenium Chrome driver
         if user == "" or password == "" or proxy == "" or port == "":
             print("getting the driver...")
-            driver = webdriver.Chrome(options=options, service=service)
+            driver = webdriver.Chrome(options=options, service=service, desired_capabilities=caps)
         else:
             proxy_options = {
                 'proxy': {
@@ -79,7 +92,7 @@ class SpotifyGenerator:
                     'no_proxy': 'localhost:127.0.0.1'
                 }
             }
-            driver = webdriver.Chrome(seleniumwire_options=proxy_options, options=options, service=service)
+            driver = webdriver.Chrome(seleniumwire_options=proxy_options, options=options, service=service, desired_capabilities=caps)
 
 
         self.driver = driver

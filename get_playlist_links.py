@@ -65,7 +65,7 @@ def get_playlist_link():
     sp.get_site("https://open.spotify.com/collection/tracks")
 
     while True:
-        _ = WebDriverWait(sp.driver,30).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'a[data-testid="internal-track-link"]')))
+        _ = WebDriverWait(sp.driver,40).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'a[data-testid="internal-track-link"]')))
         links = sp.driver.find_elements(By.CSS_SELECTOR, 'a[data-testid="internal-track-link"]')
         hrefs = [link.get_attribute("href") for link in links]
         if hrefs != []:
