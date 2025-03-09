@@ -131,7 +131,7 @@ class SpotifyGenerator:
         if self.check_capSolver():
             try:
                 WebDriverWait(self.driver, 10).until(
-                    EC.presence_of_element_located((By.XPATH, "//button[span[text()='Continue']]"))
+                    EC.element_to_be_clickable((By.XPATH, "//button[span[text()='Continue']]"))
                 )
             except:
                 print("no Continue text found")
@@ -150,8 +150,11 @@ class SpotifyGenerator:
                             EC.invisibility_of_element_located((By.XPATH, "//button[span[text()='Continue']]"))
                         )
                     except:
-                        continue_btn = self.driver.find_element(By.XPATH, "//button[span[text()='Continue']]")
-                        continue_btn.click()
+                        try:
+                            continue_btn = self.driver.find_element(By.XPATH, "//button[span[text()='Continue']]")
+                            continue_btn.click()
+                        except:
+                            pass
                     else:
                         break
 

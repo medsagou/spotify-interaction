@@ -65,7 +65,7 @@ def fill_address(driver, address):
                 actions = ActionChains(driver)
                 actions.move_to_element(driver.find_element(By.CSS_SELECTOR, 'button[data-encore-id="buttonPrimary"]')).pause(0.5).click().perform()
                 print("form confirmed")
-                return
+                # return
                 # time.sleep(3000)
                 # try:
                 #     WebDriverWait(driver, 2).until(
@@ -165,6 +165,9 @@ def main():
             ))
     except:
         print("something not working")
+        print("-------------------------------------------------------------------------------------")
+        print(sp.driver.find_element("tag name", "body").text)
+        print("-------------------------------------------------------------------------------------")
         sp.quit()
         exit()
     else:
