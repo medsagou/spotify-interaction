@@ -28,7 +28,9 @@ USER = str(os.getenv("USER_PORXY"))
 PASSWORD = str(os.getenv("PASSWORD"))
 PROXY = str(os.getenv("PROXY"))
 PORT = str(os.getenv("PORT"))
+address = str(os.getenv("ADDRESS"))
 print(USER, PASSWORD, PROXY, PORT)
+# print(address)
 # api_key = os.getenv("api_key")
 # key = os.getenv("key")
 def fill_address(driver, address):
@@ -192,7 +194,7 @@ def main():
 
     # sp.get_site("https://www.spotify.com/ng/family/join/invite/0cby9X4YCzCc7XB/".replace("invite", "confirm"))
     sp.get_site(LINK.replace("invite", "address"))
-    address = "121 Apapa Rd, Ebute Metta, Lagos 101245, Lagos, Nigeria"
+
     fill_address(driver=sp.driver, address=address)
 
     # sp.driver.save_screenshot('screenshot_filename2.png')
