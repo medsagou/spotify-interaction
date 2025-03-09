@@ -24,10 +24,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 LINK = os.getenv("LINK")
-USER = os.getenv("USER")
-PASSWORD = os.getenv("PASSWORD")
-PROXY = os.getenv("PROXY")
-PORT = os.getenv("PORT")
+USER = str(os.getenv("USER"))
+PASSWORD = str(os.getenv("PASSWORD"))
+PROXY = str(os.getenv("PROXY"))
+PORT = str(os.getenv("PORT"))
+print(USER, PASSWORD, PROXY, PORT)
 # api_key = os.getenv("api_key")
 # key = os.getenv("key")
 def fill_address(driver, address):
