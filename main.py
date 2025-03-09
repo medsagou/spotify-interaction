@@ -24,6 +24,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 LINK = os.getenv("LINK")
+USER = os.getenv("USER")
+PASSWORD = os.getenv("PASSWORD")
+PROXY = os.getenv("PROXY")
+PORT = os.getenv("PORT")
 # api_key = os.getenv("api_key")
 # key = os.getenv("key")
 def fill_address(driver, address):
@@ -56,6 +60,7 @@ def fill_address(driver, address):
                 actions = ActionChains(driver)
                 actions.move_to_element(driver.find_element(By.CSS_SELECTOR, 'button[data-encore-id="buttonPrimary"]')).pause(0.5).click().perform()
                 print("form confirmed")
+                return
                 # time.sleep(3000)
                 # try:
                 #     WebDriverWait(driver, 2).until(
@@ -79,7 +84,7 @@ def main():
     playlist_links = [item.strip() for item in C_Fichier("playlists.txt").Fichier_to_Liste()]
 
 
-    sp.get_driver(user="kheYdSdd", password="LGsFYFAY", proxy="45.199.205.7", port='64848')
+    sp.get_driver(user=USER, password=PASSWORD, proxy=PROXY, port=PORT)
     # sp.get_driver()
     sp.get_site()
     sp.get_Email_from_yopmail()
@@ -150,12 +155,13 @@ def main():
     # CHECK THING
     try:
         WebDriverWait(sp.driver, 20).until(
-            EC.visibility_of_element_located(
+            EC.presence_of_element_located(
                 (By.XPATH, '//a[@href="https://open.spotify.com/"')
             ))
     except:
         print("something not working")
         sp.quit()
+        exit()
     else:
         for link in playlist_links:
             sp.get_site(link)
