@@ -37,7 +37,8 @@ def fill_address(driver, address):
             EC.presence_of_element_located((By.XPATH, '//*[@id="address"]'))
         )
     except:
-        print("NOTE: No address there")
+        print("NOTE: No address field there, Check your invite link and try again (stop the program ctrl+c".upper())
+        exit()
     else:
         driver.find_element(By.XPATH, '//*[@id="address"]').send_keys(address)
         print("address fieled")
