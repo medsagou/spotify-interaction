@@ -38,6 +38,9 @@ def fill_address(driver, address):
         )
     except:
         print("NOTE: No address field there, Check your invite link and try again (stop the program ctrl+c".upper())
+        print("-------------------------------------------------------------------------------------")
+        print(driver.find_element("tag name", "body").text)
+        print("-------------------------------------------------------------------------------------")
         exit()
     else:
         driver.find_element(By.XPATH, '//*[@id="address"]').send_keys(address)
