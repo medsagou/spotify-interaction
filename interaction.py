@@ -46,7 +46,7 @@ class SpotifyGenerator:
         options = webdriver.ChromeOptions()
         options.add_argument("--load-extension={0}".format(curr_dir + "/CapSolver"))
         options.add_argument("--lang=en")
-        options.add_argument("--headless=new")
+        # options.add_argument("--headless=new")
         options.add_argument("--disable-gpu")
 
         # options.add_argument("--disable-images")
@@ -112,7 +112,6 @@ class SpotifyGenerator:
             )
             print("Recaptcha found.")
             print("solving...")
-            # return
             try:
                 WebDriverWait(self.driver, 100).until(
                     EC.visibility_of_element_located((By.XPATH, "//*[contains(text(), 'Captcha solved!')]"))
@@ -120,10 +119,10 @@ class SpotifyGenerator:
                 print("Captcha solved!")
                 return True
             except:
-                print("no text found")
+                print("no Capsolver found")
                 return False
         except:
-            print("no text found")
+            print("no Capsolver tip button found")
             return False
 
 
@@ -135,6 +134,7 @@ class SpotifyGenerator:
                 )
             except:
                 print("no Continue text found")
+                self.check_login_signup()
                 return False
             else:
                 continue_btn = self.driver.find_element(By.XPATH,"//button[span[text()='Continue']]")
@@ -155,7 +155,7 @@ class SpotifyGenerator:
                         break
 
         else:
-            print(self.driver.find_element("tag name", "body").text)
+            # print(self.driver.find_element("tag name", "body").text)
             print("no captcha so no continue")
             self.check_login_signup()
     def get_Email_from_yopmail(self):

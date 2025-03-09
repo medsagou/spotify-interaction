@@ -7,9 +7,7 @@ Created on Wed Apr 26 22:49:13 2023
 
 import time
 from selenium.webdriver.common.by import By
-
 from selenium.webdriver.common.action_chains import ActionChains
-
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -58,6 +56,7 @@ def fill_address(driver, address):
                 actions = ActionChains(driver)
                 actions.move_to_element(driver.find_element(By.CSS_SELECTOR, 'button[data-encore-id="buttonPrimary"]')).pause(0.5).click().perform()
                 print("form confirmed")
+                time.sleep(3000)
                 # try:
                 #     WebDriverWait(driver, 2).until(
                 #         EC.element_to_be_clickable((By.XPATH, "//button[//text()[contains(., 'Confirm')]]"))
@@ -152,15 +151,12 @@ def main():
     try:
         WebDriverWait(sp.driver, 20).until(
             EC.visibility_of_element_located(
-                (By.XPATH, "//*[contains(text(), 'Welcome to Spotify Family')]")
+                (By.XPATH, '//a[@href="https://open.spotify.com/"')
             ))
     except:
         print("something not working")
-        # print(sp.driver.find_element("tag name", "body").text)
         sp.quit()
     else:
-
-
         for link in playlist_links:
             sp.get_site(link)
             try:
@@ -175,9 +171,9 @@ def main():
                 print("Done:", link)
                 time.sleep(1)
 
-        print("sleeping2000")
-        time.sleep(20000)
+
         sp.quit()
+        exit()
         # sp.cc_premium_activator()
         # L = sp.export_data()
         # L.append(date.today())
@@ -185,10 +181,10 @@ def main():
         #
         # #file.creer_fichier_1()
         # file.Liste_to_str_to_Fichier(L)
-    return
 
 if __name__ == "__main__":
     # asyncio.run(main())
+    # main()
     import threading
     print("starting")
     i = 0
