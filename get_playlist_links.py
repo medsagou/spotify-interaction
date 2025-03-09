@@ -69,6 +69,8 @@ def get_playlist_link():
         links = sp.driver.find_elements(By.CSS_SELECTOR, 'a[data-testid="internal-track-link"]')
         hrefs = [link.get_attribute("href") for link in links]
         if hrefs != []:
+            for h in hrefs:
+                print(h)
             break
         time.sleep(2)
 
