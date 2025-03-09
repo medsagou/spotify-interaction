@@ -50,7 +50,7 @@ class SpotifyGenerator:
         options.add_argument("--headless=new")
         options.add_argument("--disable-gpu")
 
-        # options.add_argument("--disable-images")
+        options.add_argument("--disable-images")
         # options.add_argument("--disk-cache-size=4096")
         # options.add_argument("--disk-cache-dir=/tmp/cache")
         # options.set_capability("pageLoadStrategy", "none")

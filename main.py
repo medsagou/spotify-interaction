@@ -4,7 +4,7 @@ Created on Wed Apr 26 22:49:13 2023
 
 @author: HP
 """
-
+import threading
 import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
@@ -89,10 +89,24 @@ def main():
     playlist_links = [item.strip() for item in C_Fichier("playlists.txt").Fichier_to_Liste()]
 
 
-    sp.get_driver(user=USER, password=PASSWORD, proxy=PROXY, port=PORT)
+    # sp.get_driver(user=USER, password=PASSWORD, proxy=PROXY, port=PORT)
+
+    thread1 = threading.Thread(target=sp.get_driver, args=(USER, PASSWORD, PROXY, PORT))
+    thread2 = threading.Thread(target=sp.get_Email_from_yopmail)
+    # thread22 = threading.Thread(target=main)
+
+    thread1.start()
+    thread2.start()
+    # thread22.start()
+
+    thread1.join()
+    thread2.join()
+
+
+
     # sp.get_driver()
     sp.get_site()
-    sp.get_Email_from_yopmail()
+    # sp.get_Email_from_yopmail()
     #sp.go_to_signup()
     sp.fill_email_and_confrm()
     sp.remove_descrections()
@@ -157,17 +171,20 @@ def main():
     address = "121 Apapa Rd, Ebute Metta, Lagos 101245, Lagos, Nigeria"
     fill_address(driver=sp.driver, address=address)
 
+    sp.driver.save_screenshot('screenshot_filename2.png')
+
     # CHECK THING
     try:
         WebDriverWait(sp.driver, 20).until(
-            EC.presence_of_element_located(
-                (By.XPATH, '//a[@href="https://open.spotify.com/"')
+            EC.invisibility_of_element_located(
+                (By.XPATH, '//*[@id="address"]')
             ))
     except:
         print("something not working")
         print("-------------------------------------------------------------------------------------")
         print(sp.driver.find_element("tag name", "body").text)
         print("-------------------------------------------------------------------------------------")
+        sp.driver.save_screenshot('screenshot_filename.png')
         sp.quit()
         exit()
     else:
@@ -199,7 +216,7 @@ def main():
 if __name__ == "__main__":
     # asyncio.run(main())
     # main()
-    import threading
+
     print("starting")
     i = 0
     while True:
