@@ -41,6 +41,7 @@ class SpotifyGenerator:
         self.data_file = "data.txt"
         self.extenstion = "xk-en"
         self.address_file_name = "address.txt"
+        self.retry_count = 0
 
     def get_driver(self, user="", password="", proxy="", port=""):
         options = webdriver.ChromeOptions()
@@ -255,6 +256,10 @@ class SpotifyGenerator:
                     (By.CSS_SELECTOR, '[aria-controls="profileMenu"]')
                 ))
         except Exception as e:
+            if self.retry_count >= 3:
+                print("3 attempts reached. Exiting script. (starting new account)")
+                exit()
+            self.retry_count += 1
             print("error with captcha, retrying..")
 
             # print(self.driver.find_element("tag name", "body").text)
