@@ -56,7 +56,7 @@ def fill_address(driver, address):
                 actions = ActionChains(driver)
                 actions.move_to_element(driver.find_element(By.CSS_SELECTOR, 'button[data-encore-id="buttonPrimary"]')).pause(0.5).click().perform()
                 print("form confirmed")
-                time.sleep(3000)
+                # time.sleep(3000)
                 # try:
                 #     WebDriverWait(driver, 2).until(
                 #         EC.element_to_be_clickable((By.XPATH, "//button[//text()[contains(., 'Confirm')]]"))
