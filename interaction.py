@@ -151,6 +151,7 @@ class SpotifyGenerator:
         else:
             print(self.driver.find_element("tag name", "body").text)
             print("no captcha so no continue")
+            self.check_login_signup()
     def get_Email_from_yopmail(self):
         yopmail_url = "https://yopmail.com/email-generator"
         response = requests.get(yopmail_url)
