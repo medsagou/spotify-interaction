@@ -4,27 +4,23 @@ Created on Wed Apr 26 22:49:39 2023
 
 @author: HP
 """
-
+import string
 import requests
+from faker import Faker
+import random
 from bs4 import BeautifulSoup
 from selenium.webdriver.common.action_chains import ActionChains
 import time
 from datetime import datetime
-# from selenium import webdriver
 from seleniumwire import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.by import By
 
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-# from selenium.webdriver.chrome.service import Service as ChromeService
-# from webdriver_manager.chrome import ChromeDriverManager
 
 from selenium.webdriver.support.ui import Select
 
-import undetected_chromedriver as uc
 
 from Module_cc import CC_Class
 from class_fichier import C_Fichier
@@ -43,14 +39,21 @@ class SpotifyGenerator:
         self.address_file_name = "address.txt"
         self.retry_count = 0
 
+    def generate_password(self):
+        chars = string.ascii_letters + string.digits + string.punctuation
+        while True:
+            password = ''.join(random.choices(chars, k=14))
+            if (any(c.isupper() for c in password) and
+                    any(c.isdigit() for c in password) and
+                    any(c in string.punctuation for c in password)):
+                return password
     def get_driver(self, user="", password="", proxy="", port=""):
         options = webdriver.ChromeOptions()
         options.add_argument("--load-extension={0}".format(curr_dir + "/CapSolver"))
         options.add_argument("--lang=en")
-        options.add_argument("--headless=new")
+        # options.add_argument("--headless=new")
         options.add_argument("--disable-gpu")
 
-        options.add_argument("--disable-images")
         # options.add_argument("--disk-cache-size=4096")
         # options.add_argument("--disk-cache-dir=/tmp/cache")
         # options.set_capability("pageLoadStrategy", "none")
@@ -261,6 +264,7 @@ class SpotifyGenerator:
         except Exception as e:
             if self.retry_count >= 3:
                 print("3 attempts reached. Exiting script. (starting new account)")
+                self.quit()
                 exit()
             self.retry_count += 1
             print("error with captcha, retrying..")
@@ -287,7 +291,8 @@ class SpotifyGenerator:
             print("NOTE: No name there")
         else:
             display_name_field = self.driver.find_element(By.ID, "displayName")
-            display_name_field.send_keys("your name")
+            fake = Faker()
+            display_name_field.send_keys(fake.name())
         return
 
     def fill_password_login(self, password_text):

@@ -33,14 +33,23 @@ print(USER, PASSWORD, PROXY, PORT)
 # key = os.getenv("key")
 def fill_address(driver, address):
     try:
-        WebDriverWait(driver, 60).until(
+        WebDriverWait(driver, 30).until(
             EC.presence_of_element_located((By.XPATH, '//*[@id="address"]'))
         )
     except:
-        print("NOTE: No address field there, Check your invite link and try again (stop the program ctrl+c".upper())
-        print("-------------------------------------------------------------------------------------")
-        print(driver.find_element("tag name", "body").text)
-        print("-------------------------------------------------------------------------------------")
+
+        try:
+            WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, '//*[@id="plan-already-full-error-page"]'))
+            )
+        except:
+            print("NOTE: No address field there, Check your invite link and try again (stop the program ctrl+c".upper())
+        else:
+            print("YOU LINK IS FULL, WILL TRY TO GET NEW LINK NEXT TIME...")
+        # print("-------------------------------------------------------------------------------------")
+        # print(driver.find_element("tag name", "body").text)
+        # print("-------------------------------------------------------------------------------------")
+        driver.quit()
         exit()
     else:
         driver.find_element(By.XPATH, '//*[@id="address"]').send_keys(address)
@@ -57,14 +66,29 @@ def fill_address(driver, address):
             # time.sleep(1)
             try:
                 WebDriverWait(driver, 10).until(
-                    EC.visibility_of_element_located((By.XPATH, "//button[//text()[contains(., 'Confirm')]]"))
+                    EC.presence_of_element_located((By.XPATH, '//*[@id="confirm-address-dialog"]/footer/button[2]'))
                 )
             except:
                 print("NOTE: No confirm there")
             else:
-                actions = ActionChains(driver)
-                actions.move_to_element(driver.find_element(By.CSS_SELECTOR, 'button[data-encore-id="buttonPrimary"]')).pause(0.5).click().perform()
-                print("form confirmed")
+                while True:
+                    actions = ActionChains(driver)
+                    actions.move_to_element(driver.find_element(By.XPATH, '//*[@id="confirm-address-dialog"]/footer/button[2]')).pause(0.5).click().perform()
+                    print("form confirmed")
+                    try:
+                        WebDriverWait(driver, 3).until(
+                            EC.invisibility_of_element_located((By.XPATH, '//*[@id="confirm-address-dialog"]/footer/button[2]'))
+                        )
+                    except:
+                        actions = ActionChains(driver)
+                        actions.move_to_element(
+                            driver.find_element(By.XPATH, '//*[@id="confirm-address-dialog"]/footer/button[2]')).pause(
+                            0.5).click().perform()
+                        print("form confirmed again")
+                    else:
+                        break
+
+
                 # return
                 # time.sleep(3000)
                 # try:
@@ -171,11 +195,12 @@ def main():
     address = "121 Apapa Rd, Ebute Metta, Lagos 101245, Lagos, Nigeria"
     fill_address(driver=sp.driver, address=address)
 
-    sp.driver.save_screenshot('screenshot_filename2.png')
+    # sp.driver.save_screenshot('screenshot_filename2.png')
 
     # CHECK THING
     try:
-        WebDriverWait(sp.driver, 20).until(
+        print("waiting for address to disappear...")
+        WebDriverWait(sp.driver, 100).until(
             EC.invisibility_of_element_located(
                 (By.XPATH, '//*[@id="address"]')
             ))
@@ -188,6 +213,8 @@ def main():
         sp.quit()
         exit()
     else:
+        print("done")
+        time.sleep(300)
         for link in playlist_links:
             sp.get_site(link)
             try:
@@ -205,13 +232,6 @@ def main():
 
         sp.quit()
         exit()
-        # sp.cc_premium_activator()
-        # L = sp.export_data()
-        # L.append(date.today())
-        #
-        #
-        # #file.creer_fichier_1()
-        # file.Liste_to_str_to_Fichier(L)
 
 if __name__ == "__main__":
     # asyncio.run(main())
@@ -225,12 +245,12 @@ if __name__ == "__main__":
         i += 1
         thread1 = threading.Thread(target=main)
         thread2 = threading.Thread(target=main)
-        thread22 = threading.Thread(target=main)
+        # thread22 = threading.Thread(target=main)
 
         thread2.start()
         thread1.start()
-        thread22.start()
+        # thread22.start()
 
         thread1.join()
         thread2.join()
-        thread22.join()
+        # thread22.join()
