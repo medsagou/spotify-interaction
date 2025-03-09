@@ -61,7 +61,7 @@ def get_playlist_link():
     # print(playlist_link)
 
 
-
+    print("Getting Liked song link...")
     sp.get_site("https://open.spotify.com/collection/tracks")
 
     while True:
