@@ -83,7 +83,7 @@ def get_playlist_link():
     print("playlists links saved successfully")
     # time.sleep(100)
     sp.quit()
-    exit()
+    return
     # return playlist_link
 
 

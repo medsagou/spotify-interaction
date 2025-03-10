@@ -251,6 +251,9 @@ if __name__ == "__main__":
     n = int(input("Enter the number of threading: "))
     i = 0
     while True:
+        if i != 0:
+            print("Starting again in 2 seconds...")
+            time.sleep(2)
         if i == 10:
             break
         i += 1
