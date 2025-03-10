@@ -72,7 +72,7 @@ def get_playlist_link():
             for h in hrefs:
                 print(h)
             break
-        time.sleep(2)
+        # time.sleep(2)
 
     # Print the extracted links
     # print(hrefs)
@@ -83,8 +83,15 @@ def get_playlist_link():
     print("playlists links saved successfully")
     # time.sleep(100)
     sp.quit()
-    return playlist_link
+    exit()
+    # return playlist_link
 
 
 if __name__ == "__main__":
-    get_playlist_link()
+    while True:
+        try:
+            get_playlist_link()
+        except:
+            pass
+        else:
+            break
