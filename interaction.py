@@ -161,6 +161,7 @@ class SpotifyGenerator:
                         except:
                             pass
                     else:
+                        self.check_login_signup()
                         break
 
         else:
