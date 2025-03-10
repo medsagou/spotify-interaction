@@ -248,19 +248,50 @@ if __name__ == "__main__":
     # main()
 
     print("starting")
+    n = int(input("Enter the number of threading: "))
     i = 0
     while True:
-        if i == 100:
+        if i == 10:
             break
         i += 1
-        thread1 = threading.Thread(target=main)
-        thread2 = threading.Thread(target=main)
-        thread22 = threading.Thread(target=main)
+        if n == 1:
+            main()
+        elif n == 2:
+            thread1 = threading.Thread(target=main)
+            thread2 = threading.Thread(target=main)
 
-        thread2.start()
-        thread1.start()
-        thread22.start()
+            thread2.start()
+            thread1.start()
 
-        thread1.join()
-        thread2.join()
-        thread22.join()
+            thread1.join()
+            thread2.join()
+        elif n == 3:
+            thread1 = threading.Thread(target=main)
+            thread2 = threading.Thread(target=main)
+            thread22 = threading.Thread(target=main)
+
+            thread2.start()
+            thread1.start()
+            thread22.start()
+
+            thread1.join()
+            thread2.join()
+            thread22.join()
+        elif n == 4:
+            thread1 = threading.Thread(target=main)
+            thread2 = threading.Thread(target=main)
+            thread22 = threading.Thread(target=main)
+            thread222 = threading.Thread(target=main)
+
+            thread2.start()
+            thread1.start()
+            thread22.start()
+            thread222.start()
+
+            thread1.join()
+            thread2.join()
+            thread22.join()
+            thread222.join()
+        else:
+            print("Try again (choose a number between 1 and 4")
+            break
