@@ -5,6 +5,16 @@ import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+USER = str(os.getenv("USER_PORXY"))
+PASSWORD = str(os.getenv("PASSWORD"))
+PROXY = str(os.getenv("PROXY"))
+PORT = str(os.getenv("PORT"))
+
 
 def get_playlist_link():
     playlist_link = []
@@ -16,7 +26,16 @@ def get_playlist_link():
     # login system
     sp = SpotifyGenerator()
     sp.email = account.strip()
-    sp.get_driver()
+    while True:
+        test = input("You want to use proxy? (y/n): ")
+        if test.lower() == "y":
+            print(USER, PASSWORD, PROXY, PORT)
+            sp.get_driver(user=USER, password=PASSWORD, proxy=PROXY, port=PORT)
+            break
+        elif test.lower() == "n":
+            sp.get_driver()
+            break
+
     sp.get_site(site='https://www.spotify.com/login')
     sp.fill_email_login()
     sp.fill_password_login(password.strip())
