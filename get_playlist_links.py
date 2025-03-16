@@ -8,19 +8,20 @@ from selenium.webdriver.support import expected_conditions as EC
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
-
-USER = str(os.getenv("USER_PORXY"))
-PASSWORD = str(os.getenv("PASSWORD"))
-PROXY = str(os.getenv("PROXY"))
-PORT = str(os.getenv("PORT"))
-
+# load_dotenv()
+#
+# USER = str(os.getenv("USER_PORXY"))
+# PASSWORD = str(os.getenv("PASSWORD"))
+# PROXY = str(os.getenv("PROXY"))
+# PORT = str(os.getenv("PORT"))
+#
 
 def get_playlist_link():
     playlist_link = []
     # get account
-    cF = C_Fichier(NF='ref_account.txt')
-    account, password = cF.Fichier_to_Liste()
+    # cF = C_Fichier(NF='ref_account.txt')
+    # account, password = cF.Fichier_to_Liste()
+    account, password = input("Enter your ref account (email:password): ").strip().split(":")
     print("main account is :", account)
 
     # login system
@@ -29,6 +30,7 @@ def get_playlist_link():
     while True:
         test = input("You want to use proxy? (y/n): ")
         if test.lower() == "y":
+            PROXY, PORT, USER, PASSWORD = input("Enter your proxy (ip:port:user:pass): ").strip().split(":")
             print(USER, PASSWORD, PROXY, PORT)
             sp.get_driver(user=USER, password=PASSWORD, proxy=PROXY, port=PORT)
             break
@@ -107,10 +109,5 @@ def get_playlist_link():
 
 
 if __name__ == "__main__":
-    while True:
-        try:
-            get_playlist_link()
-        except:
-            pass
-        else:
-            break
+    get_playlist_link()
+
