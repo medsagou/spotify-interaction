@@ -101,7 +101,7 @@ class SpotifyGenerator:
             driver = webdriver.Chrome(seleniumwire_options=proxy_options, options=options, service=service)
 
         def block_unwanted_requests(request):
-            if request.url.endswith(('.jpg', '.png', '.gif', '.css', '.js')):
+            if request.url.endswith(('.jpg', '.png', '.gif', '.css')):
                 request.abort()
 
         self.driver = driver
@@ -396,7 +396,7 @@ class SpotifyGenerator:
         except:
             print("we didn't find email field")
         else:
-            self.remove_descrections()
+            # self.remove_descrections()
             email_field = self.driver.find_element(By.ID, "username")
             email_field.send_keys(self.email)
             # try:
@@ -410,10 +410,14 @@ class SpotifyGenerator:
 
         while True:
             try:
-                WebDriverWait(self.driver, 10).until(
+                WebDriverWait(self.driver, 5).until(
                     EC.invisibility_of_element_located((By.ID, "username"))
                 )
             except:
+                # print("here")
+                # email_field = self.driver.find_element(By.ID, "username")
+                # email_field.send_keys(self.email)
+                # self.driver.save_screenshot('screenshot.png')
                 self.submit()
             else:
                 print("email field finished")
@@ -647,5 +651,8 @@ class SpotifyGenerator:
 
 if __name__=="__main__":
     sp = SpotifyGenerator()
-    for i in range(3):
-        print(sp.generate_password())
+    sp.get_driver()
+    sp.get_site()
+
+    sp.fill_email_and_confrm()
+    time.sleep(200)
