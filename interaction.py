@@ -100,6 +100,7 @@ class SpotifyGenerator:
             }
             driver = webdriver.Chrome(seleniumwire_options=proxy_options, options=options, service=service)
 
+
         def block_unwanted_requests(request):
             if request.url.endswith(('.jpg', '.png', '.gif', '.css')):
                 request.abort()
