@@ -15,21 +15,24 @@ from selenium.webdriver.support import expected_conditions as EC
 from interaction import SpotifyGenerator
 from class_fichier import C_Fichier
 
-# import os
+import os
 # import asyncio
 
 # from capmonstercloudclient import CapMonsterClient, ClientOptions
 # from capmonstercloudclient.requests import RecaptchaV2ProxylessRequest
-# from dotenv import load_dotenv
 
-# load_dotenv()
 # LINK = os.getenv("LINK")
 # USER = str(os.getenv("USER_PORXY"))
 # PASSWORD = str(os.getenv("PASSWORD"))
 # PROXY = str(os.getenv("PROXY"))
 # PORT = str(os.getenv("PORT"))
 # address = str(os.getenv("ADDRESS"))
-PROXY, PORT, USER, PASSWORD = input("Enter your proxy (ip:port:user:pass): ").strip().split(":")
+if input("use env? (y/n)").lower == "y":
+    from dotenv import load_dotenv
+    load_dotenv()
+    PROXY, PORT, USER, PASSWORD = os.getenv("PROXY").strip().split(":")
+else:
+    PROXY, PORT, USER, PASSWORD = input("Enter your proxy (ip:port:user:pass): ").strip().split(":")
 LINK = input("Enter your family joining link: ")
 address = input("Enter your address joining : ")
 print("The Link is :", LINK)
