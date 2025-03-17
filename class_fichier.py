@@ -45,7 +45,7 @@ class C_Fichier():
     # Ce constructeur permet d'attribuer à une instance de fichier son nom (vide par défaut) 
     # Ce constructeur permet de spécifier le séparateur des éléments s'il existe (également vide par défauté)su
     # Un séparateur peut être un ";", une "," un "#', etc.  
-    def __init__(self,NF="",sep="|", sep2="+"):
+    def __init__(self,NF="",sep=":", sep2="+"):
         self.nomFichier=NF
         self.separateur=sep
         self.separateur2=sep2

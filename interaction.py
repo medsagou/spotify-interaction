@@ -49,15 +49,18 @@ class SpotifyGenerator:
     #                 any(c in string.punctuation for c in password)):
     #             return password
     def generate_password(self, length=20):
-        punctuation_char = secrets.choice(string.punctuation)
+        allowed_punctuation = string.punctuation.replace(":", "").replace("'", "").replace("`", "")
+
+        # Ensure at least one special character (excluding `:`)
+        punctuation_char = secrets.choice(allowed_punctuation)
 
         # Generate the rest of the password using letters and digits only
         characters = string.ascii_letters + string.digits
         password_body = ''.join(secrets.choice(characters) for _ in range(length - 1))
 
-        # Convert password to a list and find a non-first position
+        # Convert password to a list and insert the punctuation at a non-first position
         password = list(password_body)
-        insert_position = secrets.randbelow(length - 1) + 1  # Ensures it's not position 0
+        insert_position = secrets.randbelow(length - 1) + 1  # Ensures it's not at position 0
         password.insert(insert_position, punctuation_char)
 
         return ''.join(password)
