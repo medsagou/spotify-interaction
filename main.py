@@ -28,6 +28,7 @@ import os
 # PORT = str(os.getenv("PORT"))
 # address = str(os.getenv("ADDRESS"))
 env_test = input("use env? (y/n)").strip()
+print(env_test)
 if env_test.lower == "y":
     from dotenv import load_dotenv
     load_dotenv()
