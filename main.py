@@ -27,7 +27,8 @@ import os
 # PROXY = str(os.getenv("PROXY"))
 # PORT = str(os.getenv("PORT"))
 # address = str(os.getenv("ADDRESS"))
-if input("use env? (y/n)").lower == "y":
+env_test = input("use env? (y/n)").strip()
+if env_test.lower == "y":
     from dotenv import load_dotenv
     load_dotenv()
     PROXY, PORT, USER, PASSWORD = os.getenv("PROXY").strip().split(":")
