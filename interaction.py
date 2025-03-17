@@ -21,6 +21,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+import secrets
 
 from Module_cc import CC_Class
 from class_fichier import C_Fichier
@@ -39,14 +40,27 @@ class SpotifyGenerator:
         self.address_file_name = "address.txt"
         self.retry_count = 0
 
-    def generate_password(self):
-        chars = string.ascii_letters + string.digits + string.punctuation
-        while True:
-            password = ''.join(random.choices(chars, k=14))
-            if (any(c.isupper() for c in password) and
-                    any(c.isdigit() for c in password) and
-                    any(c in string.punctuation for c in password)):
-                return password
+    # def generate_password(self):
+    #     chars = string.ascii_letters + string.digits + string.punctuation
+    #     while True:
+    #         password = ''.join(random.choices(chars, k=14))
+    #         if (any(c.isupper() for c in password) and
+    #                 any(c.isdigit() for c in password) and
+    #                 any(c in string.punctuation for c in password)):
+    #             return password
+    def generate_password(self, length=20):
+        punctuation_char = secrets.choice(string.punctuation)
+
+        # Generate the rest of the password using letters and digits only
+        characters = string.ascii_letters + string.digits
+        password_body = ''.join(secrets.choice(characters) for _ in range(length - 1))
+
+        # Convert password to a list and find a non-first position
+        password = list(password_body)
+        insert_position = secrets.randbelow(length - 1) + 1  # Ensures it's not position 0
+        password.insert(insert_position, punctuation_char)
+
+        return ''.join(password)
     def get_driver(self, user="", password="", proxy="", port=""):
         options = webdriver.ChromeOptions()
         options.add_argument("--load-extension={0}".format(curr_dir + "/CapSolver"))
@@ -285,7 +299,7 @@ class SpotifyGenerator:
     def save_data(self, file_name='data.txt'):
         data_file = C_Fichier(file_name)
         # data_file.Liste_to_str_to_Fichier([self.email, self.password, datetime.now().strftime("%Y-%m-%d")])
-        data_file.Liste_to_str_to_Fichier([self.email, self.password)
+        data_file.Liste_to_str_to_Fichier([self.email, self.password])
 
     def fill_displayed_name(self):
         try:
@@ -614,3 +628,9 @@ class SpotifyGenerator:
         self.cc_premium_activator()
 
     pass
+
+
+if __name__=="__main__":
+    sp = SpotifyGenerator()
+    for i in range(3):
+        print(sp.generate_password())
