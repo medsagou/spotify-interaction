@@ -282,8 +282,8 @@ class SpotifyGenerator:
             if login == 0:
                 return True
 
-    def save_data(self):
-        data_file = C_Fichier('data.txt')
+    def save_data(self, file_name='data.txt'):
+        data_file = C_Fichier(file_name)
         data_file.Liste_to_str_to_Fichier([self.email, self.password, datetime.now().strftime("%Y-%m-%d")])
 
     def fill_displayed_name(self):

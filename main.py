@@ -230,6 +230,7 @@ def main():
         exit()
     else:
         print("done")
+        sp.save_data(file_name="premium_data.txt")
         # time.sleep(3000)
         if len(playlist_links) != 0:
             for link in playlist_links:
