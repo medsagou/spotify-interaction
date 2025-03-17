@@ -284,7 +284,8 @@ class SpotifyGenerator:
 
     def save_data(self, file_name='data.txt'):
         data_file = C_Fichier(file_name)
-        data_file.Liste_to_str_to_Fichier([self.email, self.password, datetime.now().strftime("%Y-%m-%d")])
+        # data_file.Liste_to_str_to_Fichier([self.email, self.password, datetime.now().strftime("%Y-%m-%d")])
+        data_file.Liste_to_str_to_Fichier([self.email, self.password)
 
     def fill_displayed_name(self):
         try:
@@ -366,6 +367,7 @@ class SpotifyGenerator:
         except:
             print("we didn't find email field")
         else:
+            self.remove_descrections()
             email_field = self.driver.find_element(By.ID, "username")
             email_field.send_keys(self.email)
             # try:
