@@ -230,20 +230,22 @@ def main():
     else:
         print("done")
         # time.sleep(3000)
-        for link in playlist_links:
-            sp.get_site(link)
-            try:
-                _ = WebDriverWait(sp.driver,30).until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[data-testid="add-button"]')))
-            except Exception as e:
-                print("Eroor:", link)
-                print(e)
-                continue
-            else:
-                button = sp.driver.find_element(By.CSS_SELECTOR, 'button[data-testid="add-button"]')
-                button.click()
-                print("Done:", link)
-                time.sleep(1)
-
+        if len(playlist_links) != 0:
+            for link in playlist_links:
+                sp.get_site(link)
+                try:
+                    _ = WebDriverWait(sp.driver,30).until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[data-testid="add-button"]')))
+                except Exception as e:
+                    print("Eroor:", link)
+                    print(e)
+                    continue
+                else:
+                    button = sp.driver.find_element(By.CSS_SELECTOR, 'button[data-testid="add-button"]')
+                    button.click()
+                    print("Done:", link)
+                    time.sleep(1)
+        else:
+            print("No links to add")
 
         sp.quit()
         exit()

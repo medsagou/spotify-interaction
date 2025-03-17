@@ -2,3 +2,8 @@ options.add_argument("--no-sandbox")  # Needed when running in some Linux enviro
 options.add_argument("--disable-dev-shm-usage")
 
 sudo apt install -y libxss1 libappindicator3-1 libindicator7
+
+google-chrome --version
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo dpkg -i google-chrome-stable_current_amd64.deb
+sudo apt-get install -f
