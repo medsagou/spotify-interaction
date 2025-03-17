@@ -21,18 +21,22 @@ import os
 # from capmonstercloudclient import CapMonsterClient, ClientOptions
 # from capmonstercloudclient.requests import RecaptchaV2ProxylessRequest
 
+
 # LINK = os.getenv("LINK")
 # USER = str(os.getenv("USER_PORXY"))
 # PASSWORD = str(os.getenv("PASSWORD"))
 # PROXY = str(os.getenv("PROXY"))
 # PORT = str(os.getenv("PORT"))
 # address = str(os.getenv("ADDRESS"))
-env_test = input("use env? (y/n)").strip()
-print(env_test)
-if env_test.lower == "y":
+if input("use env? (y/n)").strip().lower() == "y":
     from dotenv import load_dotenv
+
     load_dotenv()
-    PROXY, PORT, USER, PASSWORD = os.getenv("PROXY").strip().split(":")
+    try:
+        PROXY, PORT, USER, PASSWORD = os.getenv("PROXY").strip().split(":")
+    except:
+        print("Env not working, check your .env file and try again or:")
+        PROXY, PORT, USER, PASSWORD = input("Enter your proxy (ip:port:user:pass): ").strip().split(":")
 else:
     PROXY, PORT, USER, PASSWORD = input("Enter your proxy (ip:port:user:pass): ").strip().split(":")
 LINK = input("Enter your family joining link: ")
