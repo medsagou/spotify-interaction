@@ -280,7 +280,7 @@ class SpotifyGenerator:
         else:
             print("Login/signup success")
             if login == 0:
-                self.save_data()
+                return True
 
     def save_data(self):
         data_file = C_Fichier('data.txt')

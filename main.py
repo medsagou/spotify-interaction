@@ -196,7 +196,8 @@ def main():
         return
 
     sp.check_login_signup()
-
+    # saving the account
+    sp.save_data()
     # sp.get_site("https://www.spotify.com/ng/family/join/invite/0cby9X4YCzCc7XB/".replace("invite", "confirm"))
     sp.get_site(LINK.replace("invite", "address"))
 
