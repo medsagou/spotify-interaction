@@ -214,23 +214,30 @@ class SpotifyGenerator:
         return
 
     def remove_descrections(self):
-        policy_close_button = self.driver.find_elements(
-            By.CSS_SELECTOR,
-            ".onetrust-close-btn-handler.onetrust-close-btn-ui.banner-close-button.ot-close-icon",
-        )
-        if len(policy_close_button) != 0:
-            policy_close_button[0].click()
-            print("NOTE: REMOVED POLICY")
-
         try:
-            cookies_button = self.driver.find_element(
-                By.ID, "onetrust-accept-btn-handler"
-            )
+            policy_close_button = WebDriverWait(self.driver, 5).until(
+                EC.element_to_be_clickable(
+                By.CSS_SELECTOR,
+                ".onetrust-close-btn-handler.onetrust-close-btn-ui.banner-close-button.ot-close-icon",
+            ))
+            if len(policy_close_button) != 0:
+                try:
+                    policy_close_button[0].click()
+                    print("NOTE: REMOVED POLICY")
+                except:
+                    print("expection line 226 interaction.py")
+
+            try:
+                cookies_button = self.driver.find_element(
+                    By.ID, "onetrust-accept-btn-handler"
+                )
+            except:
+                print("NOTE: No cookies there")
+            else:
+                cookies_button.click()
+                print("REMOVE COOKIES")
         except:
-            print("NOTE: No cookies there")
-        else:
-            cookies_button.click()
-            print("REMOVE COOKIES")
+            print("Exception line 240 interaction.py")
 
         return
 
