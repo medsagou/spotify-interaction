@@ -95,12 +95,17 @@ class SpotifyGenerator:
                     'http': f'http://{user}:{password}@{proxy}:{port}',
                     'https': f'http://{user}:{password}@{proxy}:{port}',
                     'no_proxy': 'localhost:127.0.0.1'
-                }
+                },
+                'disable_encoding': True,
             }
             driver = webdriver.Chrome(seleniumwire_options=proxy_options, options=options, service=service)
 
+        def block_unwanted_requests(request):
+            if request.url.endswith(('.jpg', '.png', '.gif', '.css', '.js')):
+                request.abort()
 
         self.driver = driver
+        self.driver.request_interceptor = block_unwanted_requests
         # self.driver.maximize_window()
         # self.driver.get("https://www.google.com/recaptcha/api2/demo")
         # self.driver.get("https://www.myip.com/")
