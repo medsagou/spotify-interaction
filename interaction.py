@@ -126,7 +126,21 @@ class SpotifyGenerator:
         self.driver.get(site)
         return
     def check_capSolver(self):
+        i = 0
         while True:
+            i+=1
+            if i >= 10:
+                i = 0
+                try:
+                    WebDriverWait(self.driver, 5).until(
+                        EC.element_to_be_clickable((By.XPATH, "//*[contains(text(), 'Sign up')]"))
+                    )
+                    print("Sign up text found")
+                    self.submit()
+                except:
+                    print("Sign up button not found")
+                    exit()
+
             try:
                 WebDriverWait(self.driver, 10).until(
                     EC.invisibility_of_element_located((By.XPATH, "//*[contains(text(), 'Terms')]"))
