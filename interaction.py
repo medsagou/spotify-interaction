@@ -39,6 +39,7 @@ class SpotifyGenerator:
         self.extenstion = "xk-en"
         self.address_file_name = "address.txt"
         self.retry_count = 0
+        self.print_success = False
 
     # def generate_password(self):
     #     chars = string.ascii_letters + string.digits + string.punctuation
@@ -350,10 +351,12 @@ class SpotifyGenerator:
             self.driver.refresh()
             self.hit_continue()
         else:
-            print("Login/signup success")
-            self.calculate_usage()
-            if login == 0:
-                return True
+            if not self.print_success:
+                print("Login/signup success")
+                self.print_success = True
+                self.calculate_usage()
+                if login == 0:
+                    return True
 
     def save_data(self, file_name='data.txt'):
         data_file = C_Fichier(file_name)

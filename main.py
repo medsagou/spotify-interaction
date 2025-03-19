@@ -162,71 +162,71 @@ def main():
 
 
     # sp.get_driver()
+    if stop_event.is_set():
+        sp.quit()
+        print("ENOUGH ACCOUNT QUITING...")
+        return
     sp.get_site()
+    if stop_event.is_set():
+        sp.quit()
+        print("ENOUGH ACCOUNT QUITING...")
+        return
     # sp.get_Email_from_yopmail()
     #sp.go_to_signup()
     sp.fill_email_and_confrm()
+    if stop_event.is_set():
+        sp.quit()
+        print("ENOUGH ACCOUNT QUITING...")
+        return
     sp.remove_descrections()
+    if stop_event.is_set():
+        sp.quit()
+        print("ENOUGH ACCOUNT QUITING...")
+        return
     sp.fill_password()
+    if stop_event.is_set():
+        sp.quit()
+        print("ENOUGH ACCOUNT QUITING...")
+        return
     sp.fill_displayed_name()
+    if stop_event.is_set():
+        sp.quit()
+        print("ENOUGH ACCOUNT QUITING...")
+        return
     sp.fill_date_of_birth()
+    if stop_event.is_set():
+        sp.quit()
+        print("ENOUGH ACCOUNT QUITING...")
+        return
     sp.fill_gender()
+    if stop_event.is_set():
+        sp.quit()
+        print("ENOUGH ACCOUNT QUITING...")
+        return
     sp.submit_signup_button()
-#     while True:
-#         try:
-#             WebDriverWait(sp.driver, 10).until(
-#                 EC.invisibility_of_element_located((By.XPATH, "//*[contains(text(), 'Terms')]"))
-#             )
-#         except:
-#             print("still looping")
-#         else:
-#             break
-#     time.sleep(10)
-#     print("solving")
-#     # time.sleep(30000)
-#
-#     response = await cap_monster_solver(api_key=api_key, key=key, site=sp.driver.current_url)
-#     print("response", response)
-#     time.sleep(2)
-#     sp.driver.execute_script(f'document.getElementById("g-recaptcha-response").innerHTML="{response}";')
-#     # sp.driver.execute_script(f'document.getElementById("g-recaptcha-response").value ="{response}";')
-#     time.sleep(2)
-#     sp.driver.execute_script("""
-#     var recaptchaResponse = document.getElementById("g-recaptcha-response");
-#     recaptchaResponse.dispatchEvent(new Event("change", { bubbles: true }));
-# """)
-#     sp.driver.execute_script("""
-#     window.grecaptcha = {
-#         getResponse: function() { return arguments[0]; }
-#     };
-# """, response)
-#     sp.driver.execute_script("""
-#         var recaptchaCallback = document.createEvent('Event');
-#         recaptchaCallback.initEvent('change', true, true);
-#         document.getElementById("g-recaptcha-response").dispatchEvent(recaptchaCallback);
-#     """)
-#     print("check now")
-#     time.sleep(3)
-#     continue_btn = sp.driver.find_element(By.XPATH, "//button[span[text()='Continue']]")
-#
-#     actions = ActionChains(sp.driver)
-#     actions.move_to_element(continue_btn).pause(0.5).click().perform()
-#     # continue_btn.click()
-#     print("continue clicked")
-#
-#
-#
-#     time.sleep(2000)
-    # sp.check_capSolver()
+    if stop_event.is_set():
+        sp.quit()
+        print("ENOUGH ACCOUNT QUITING...")
+        return
     if sp.hit_continue():
         return
-
+    if stop_event.is_set():
+        sp.quit()
+        print("ENOUGH ACCOUNT QUITING...")
+        return
     sp.check_login_signup()
     # saving the account
     sp.save_data()
+    if stop_event.is_set():
+        sp.quit()
+        print("ENOUGH ACCOUNT QUITING...")
+        return
     # sp.get_site("https://www.spotify.com/ng/family/join/invite/0cby9X4YCzCc7XB/".replace("invite", "confirm"))
     sp.get_site(LINK.replace("invite", "address"))
-
+    if stop_event.is_set():
+        sp.quit()
+        print("ENOUGH ACCOUNT QUITING...")
+        return
     fill_address(driver=sp.driver, address=address)
 
     # sp.driver.save_screenshot('screenshot_filename2.png')
