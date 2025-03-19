@@ -5,6 +5,8 @@ Created on Wed Apr 26 22:49:13 2023
 @author: HP
 """
 import threading
+import concurrent.futures
+
 import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
@@ -262,58 +264,78 @@ def main():
         sp.quit()
         exit()
 
+
+
 if __name__ == "__main__":
-    # asyncio.run(main())
-    # main()
+    print("Starting...")
+    n = int(input("Enter the number of threads (1-4): "))
 
-    print("starting")
-    n = int(input("Enter the number of threading: "))
-    i = 0
-    while True:
-        if i != 0:
-            print("Starting again in 2 seconds...")
-            time.sleep(2)
-        if i == 10:
-            break
-        i += 1
-        if n == 1:
-            main()
-        elif n == 2:
-            thread1 = threading.Thread(target=main)
-            thread2 = threading.Thread(target=main)
+    if n < 1 or n > 4:
+        print("Invalid number, choose between 1 and 4.")
+    else:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=n) as executor:
+            futures = {executor.submit(main) for _ in range(n)}
 
-            thread2.start()
-            thread1.start()
+            while True:
+                done, _ = concurrent.futures.wait(futures, return_when=concurrent.futures.FIRST_COMPLETED)
 
-            thread1.join()
-            thread2.join()
-        elif n == 3:
-            thread1 = threading.Thread(target=main)
-            thread2 = threading.Thread(target=main)
-            thread22 = threading.Thread(target=main)
+                # Remove completed futures and replace them with new ones
+                for future in done:
+                    futures.remove(future)
+                    futures.add(executor.submit(main))  # Start a new thread when one finishes
 
-            thread2.start()
-            thread1.start()
-            thread22.start()
-
-            thread1.join()
-            thread2.join()
-            thread22.join()
-        elif n == 4:
-            thread1 = threading.Thread(target=main)
-            thread2 = threading.Thread(target=main)
-            thread22 = threading.Thread(target=main)
-            thread222 = threading.Thread(target=main)
-
-            thread2.start()
-            thread1.start()
-            thread22.start()
-            thread222.start()
-
-            thread1.join()
-            thread2.join()
-            thread22.join()
-            thread222.join()
-        else:
-            print("Try again (choose a number between 1 and 4")
-            break
+                time.sleep(2)# if __name__ == "__main__":
+#     # asyncio.run(main())
+#     # main()
+#
+#     print("starting")
+#     n = int(input("Enter the number of threading: "))
+#     i = 0
+#     while True:
+#         if i != 0:
+#             print("Starting again in 2 seconds...")
+#             time.sleep(2)
+#         if i == 10:
+#             break
+#         i += 1
+#         if n == 1:
+#             main()
+#         elif n == 2:
+#             thread1 = threading.Thread(target=main)
+#             thread2 = threading.Thread(target=main)
+#
+#             thread2.start()
+#             thread1.start()
+#
+#             thread1.join()
+#             thread2.join()
+#         elif n == 3:
+#             thread1 = threading.Thread(target=main)
+#             thread2 = threading.Thread(target=main)
+#             thread22 = threading.Thread(target=main)
+#
+#             thread2.start()
+#             thread1.start()
+#             thread22.start()
+#
+#             thread1.join()
+#             thread2.join()
+#             thread22.join()
+#         elif n == 4:
+#             thread1 = threading.Thread(target=main)
+#             thread2 = threading.Thread(target=main)
+#             thread22 = threading.Thread(target=main)
+#             thread222 = threading.Thread(target=main)
+#
+#             thread2.start()
+#             thread1.start()
+#             thread22.start()
+#             thread222.start()
+#
+#             thread1.join()
+#             thread2.join()
+#             thread22.join()
+#             thread222.join()
+#         else:
+#             print("Try again (choose a number between 1 and 4")
+#             break
