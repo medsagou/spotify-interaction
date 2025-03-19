@@ -96,7 +96,7 @@ class SpotifyGenerator:
                     'https': f'http://{user}:{password}@{proxy}:{port}',
                     'no_proxy': 'localhost:127.0.0.1'
                 },
-                # 'disable_encoding': True,
+                'disable_encoding': True,
             }
             driver = webdriver.Chrome(seleniumwire_options=proxy_options, options=options, service=service)
 
