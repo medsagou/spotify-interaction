@@ -48,6 +48,15 @@ class SpotifyGenerator:
     #                 any(c.isdigit() for c in password) and
     #                 any(c in string.punctuation for c in password)):
     #             return password
+
+    def calculate_usage(self):
+        total_bytes = sum(len(request.response.body) for request in self.driver.requests if request.response)
+
+        # Convert bytes to MB
+        total_mb = total_bytes / (1024 * 1024)
+
+        print(f"Total Data Transferred: {total_mb:.2f} MB")
+        return total_mb
     def generate_password(self, length=20):
         allowed_punctuation = string.punctuation.replace(":", "").replace("'", "").replace("`", "")
 

@@ -73,6 +73,12 @@ def fill_address(driver, address):
         # print("-------------------------------------------------------------------------------------")
         # print(driver.find_element("tag name", "body").text)
         # print("-------------------------------------------------------------------------------------")
+        total_bytes = sum(len(request.response.body) for request in driver.requests if request.response)
+
+        # Convert bytes to MB
+        total_mb = total_bytes / (1024 * 1024)
+
+        print(f"Total Data Transferred: {total_mb:.2f} MB")
         driver.quit()
         exit()
     else:
@@ -245,6 +251,7 @@ def main():
         print(sp.driver.find_element("tag name", "body").text)
         print("-------------------------------------------------------------------------------------")
         sp.driver.save_screenshot('screenshot_filename.png')
+        sp.calculate_usage()
         sp.quit()
         exit()
     else:
@@ -272,8 +279,9 @@ def main():
                     time.sleep(1)
         else:
             print("No links to add")
-
+        sp.calculate_usage()
         sp.quit()
+
         exit()
 
 
