@@ -107,7 +107,7 @@ def fill_address(driver, address):
                     actions.move_to_element(driver.find_element(By.XPATH, '//*[@id="confirm-address-dialog"]/footer/button[2]')).pause(0.5).click().perform()
                     print("form confirmed")
                     try:
-                        WebDriverWait(driver, 3).until(
+                        WebDriverWait(driver, 5).until(
                             EC.invisibility_of_element_located((By.XPATH, '//*[@id="confirm-address-dialog"]/footer/button[2]'))
                         )
                     except:
