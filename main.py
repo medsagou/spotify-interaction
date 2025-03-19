@@ -31,6 +31,8 @@ import os
 # PORT = str(os.getenv("PORT"))
 # address = str(os.getenv("ADDRESS"))
 stop_event = threading.Event()
+done_counter = 0
+counter_lock = threading.Lock()
 
 if input("use env? (y/n)").strip().lower() == "y":
     from dotenv import load_dotenv
@@ -131,6 +133,7 @@ def fill_address(driver, address):
 #     result = await cap_monster_client.solve_captcha(recaptcha_req)
 #     return result['gRecaptchaResponse']
 def main():
+    global done_counter
     sp = SpotifyGenerator()
     playlist_links = [item.strip() for item in C_Fichier("playlists.txt").Fichier_to_Liste()]
 
@@ -245,7 +248,12 @@ def main():
         sp.quit()
         exit()
     else:
-        print("done")
+        with counter_lock:
+            done_counter += 1
+            print(f"done ({done_counter}/5)")
+
+            if done_counter >= 5:
+                stop_event.set()
         sp.save_data(file_name="premium_data.txt")
         # time.sleep(3000)
         if len(playlist_links) != 0:
