@@ -132,7 +132,12 @@ class SpotifyGenerator:
         print("NOTE: DRIVER CONNECTED")
         return
     def get_site(self, site = "https://www.spotify.com/signup"):
-        self.driver.get(site)
+        try:
+            self.driver.get(site)
+        except Exception as e:
+            print(e)
+            self.quit()
+            exit()
         return
     def check_capSolver(self):
         i = 0
