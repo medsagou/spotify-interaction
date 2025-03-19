@@ -298,7 +298,7 @@ if __name__ == "__main__":
 
             while not stop_event.is_set():
                 done, _ = concurrent.futures.wait(futures, return_when=concurrent.futures.FIRST_COMPLETED)
-
+                print(f"Active Threads: {len(futures)}")
                 for future in done:
                     futures.remove(future)
 
