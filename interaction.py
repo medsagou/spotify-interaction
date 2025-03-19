@@ -181,7 +181,7 @@ class SpotifyGenerator:
     def hit_continue(self):
         if self.check_capSolver():
             try:
-                WebDriverWait(self.driver, 10).until(
+                WebDriverWait(self.driver, 5).until(
                     EC.element_to_be_clickable((By.XPATH, "//button[span[text()='Continue']]"))
                 )
             except:
@@ -313,7 +313,7 @@ class SpotifyGenerator:
             self.driver.refresh()
             self.hit_continue()
         try:
-            WebDriverWait(self.driver, 30).until(
+            WebDriverWait(self.driver, 20).until(
                 EC.presence_of_element_located(
                     (By.CSS_SELECTOR, '[aria-controls="profileMenu"]')
                 ))
