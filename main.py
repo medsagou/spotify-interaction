@@ -258,7 +258,7 @@ def main():
     else:
         with counter_lock:
             done_counter += 1
-            print(f"done ({done_counter}/5)")
+            print(f"done ({done_counter}/{account_num})")
 
             if done_counter >= account_num:
                 stop_event.set()
