@@ -288,6 +288,8 @@ def main():
 
 if __name__ == "__main__":
     print("Starting...")
+    main()
+    exit()
     n = int(input("Enter the number of threads (1-4): "))
 
     if n < 1 or n > 4:
