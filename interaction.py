@@ -153,7 +153,7 @@ class SpotifyGenerator:
                     self.submit()
                 except:
                     print("Sign up button not found")
-                    exit()
+                    # exit()
 
             try:
                 WebDriverWait(self.driver, 10).until(
@@ -318,13 +318,14 @@ class SpotifyGenerator:
             self.driver.refresh()
             self.hit_continue()
         try:
-            WebDriverWait(self.driver, 20).until(
+            WebDriverWait(self.driver, 30).until(
                 EC.presence_of_element_located(
                     (By.CSS_SELECTOR, '[aria-controls="profileMenu"]')
                 ))
         except Exception as e:
             if self.retry_count >= 3:
                 print("3 attempts reached. Exiting script. (starting new account)")
+                self.calculate_usage()
                 self.quit()
                 exit()
             self.retry_count += 1
