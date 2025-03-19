@@ -147,8 +147,8 @@ def main():
 
     # sp.get_driver(user=USER, password=PASSWORD, proxy=PROXY, port=PORT)
 
-    thread1 = threading.Thread(target=sp.get_driver, args=(USER, PASSWORD, PROXY, PORT))
-    # thread1 = threading.Thread(target=sp.get_driver)
+    # thread1 = threading.Thread(target=sp.get_driver, args=(USER, PASSWORD, PROXY, PORT))
+    thread1 = threading.Thread(target=sp.get_driver)
     thread2 = threading.Thread(target=sp.get_Email_from_yopmail)
     # thread22 = threading.Thread(target=main)
 

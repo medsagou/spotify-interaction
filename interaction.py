@@ -81,6 +81,16 @@ class SpotifyGenerator:
         options.add_argument("--disable-gpu")
         options.add_argument("--disable-images")
         options.add_argument("--enable-features=NetworkService,NetworkServiceInProcess")
+        mobile_ua = "Mozilla/5.0 (Linux; Android 10; Pixel 3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.210 Mobile Safari/537.36"
+        options.add_argument(f"user-agent={mobile_ua}")
+        options.add_argument("--log-level=3")
+
+        mobile_emulation = {
+            "deviceMetrics": {"width": 375, "height": 812, "pixelRatio": 3},
+            "userAgent": "Mozilla/5.0 (Linux; Android 10; Pixel 3)"
+        }
+
+        options.add_experimental_option("mobileEmulation", mobile_emulation)
 
         # options.add_argument("--disk-cache-size=4096")
         # options.add_argument("--disk-cache-dir=/tmp/cache")
@@ -111,7 +121,8 @@ class SpotifyGenerator:
 
 
         def block_unwanted_requests(request):
-            if request.url.endswith(('.jpg', '.png', '.gif', '.css')):
+            # if request.url.endswith(('.jpg', '.png', '.gif', '.css')):
+            if request.url.endswith(('.png', '.jpg', '.jpeg', '.gif', '.svg', '.css', '.woff', '.woff2', '.ttf')):
                 request.abort()
 
         self.driver = driver
@@ -153,7 +164,7 @@ class SpotifyGenerator:
                     self.submit()
                 except:
                     print("Sign up button not found")
-                    # exit()
+                    exit()
 
             try:
                 WebDriverWait(self.driver, 10).until(
@@ -315,6 +326,7 @@ class SpotifyGenerator:
             pass
         else:
             print("Something went wrong with captcha, retrying..")
+            print(self.driver.current_url, 'line 329 interaction')
             self.driver.refresh()
             self.hit_continue()
         try:
@@ -330,6 +342,7 @@ class SpotifyGenerator:
                 exit()
             self.retry_count += 1
             print("error with captcha, retrying..")
+            print(self.driver.current_url, 'line 345 interaction')
 
             # print(self.driver.find_element("tag name", "body").text)
 
@@ -338,6 +351,7 @@ class SpotifyGenerator:
             self.hit_continue()
         else:
             print("Login/signup success")
+            self.calculate_usage()
             if login == 0:
                 return True
 
