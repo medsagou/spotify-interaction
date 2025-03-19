@@ -47,6 +47,7 @@ else:
     PROXY, PORT, USER, PASSWORD = input("Enter your proxy (ip:port:user:pass): ").strip().split(":")
 LINK = input("Enter your family joining link: ")
 address = input("Enter your address joining : ")
+account_num = int(input("How many accounts you want to create: "))
 print("The Link is :", LINK)
 print("Address :", address)
 print('Proxy: ',USER, PASSWORD, PROXY, PORT)
@@ -259,7 +260,7 @@ def main():
             done_counter += 1
             print(f"done ({done_counter}/5)")
 
-            if done_counter >= 5:
+            if done_counter >= account_num:
                 stop_event.set()
         sp.save_data(file_name="premium_data.txt")
         # time.sleep(3000)
