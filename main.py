@@ -30,6 +30,8 @@ import os
 # PROXY = str(os.getenv("PROXY"))
 # PORT = str(os.getenv("PORT"))
 # address = str(os.getenv("ADDRESS"))
+stop_event = threading.Event()
+
 if input("use env? (y/n)").strip().lower() == "y":
     from dotenv import load_dotenv
 
@@ -50,6 +52,7 @@ print('Proxy: ',USER, PASSWORD, PROXY, PORT)
 # api_key = os.getenv("api_key")
 # key = os.getenv("key")
 def fill_address(driver, address):
+    global stop_event
     try:
         WebDriverWait(driver, 30).until(
             EC.presence_of_element_located((By.XPATH, '//*[@id="address"]'))
@@ -63,6 +66,7 @@ def fill_address(driver, address):
         except:
             print("NOTE: No address field there, Check your invite link and try again (stop the program ctrl+c".upper())
         else:
+            stop_event.set()
             print("YOU LINK IS FULL, WILL TRY TO GET NEW LINK NEXT TIME...")
         # print("-------------------------------------------------------------------------------------")
         # print(driver.find_element("tag name", "body").text)
@@ -276,15 +280,21 @@ if __name__ == "__main__":
         with concurrent.futures.ThreadPoolExecutor(max_workers=n) as executor:
             futures = {executor.submit(main) for _ in range(n)}
 
-            while True:
+            while not stop_event.is_set():
                 done, _ = concurrent.futures.wait(futures, return_when=concurrent.futures.FIRST_COMPLETED)
 
-                # Remove completed futures and replace them with new ones
                 for future in done:
                     futures.remove(future)
-                    futures.add(executor.submit(main))  # Start a new thread when one finishes
 
-                time.sleep(2)# if __name__ == "__main__":
+                    if stop_event.is_set():
+                        break
+
+                    futures.add(executor.submit(main))
+
+                time.sleep(2)
+
+        print("All threads stopped. Exiting program.")
+# if __name__ == "__main__":
 #     # asyncio.run(main())
 #     # main()
 #
