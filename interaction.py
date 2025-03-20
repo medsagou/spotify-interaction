@@ -143,12 +143,27 @@ class SpotifyGenerator:
 
 
         def block_unwanted_requests(request):
+            BLOCKED_DOMAINS = [
+                "optimizationguide-pa.googleapis.com",  # Google page optimization
+                "googletagmanager.com",  # Google Tag Manager
+                "www.google-analytics.com",  # Google Analytics
+                "www.googleoptimize.com",  # Google Optimize (A/B testing)
+                # "www.gstatic.com/recaptcha/",  # reCAPTCHA (disable if needed)
+                "cdn.cookielaw.org",  # Cookie banner scripts
+                "r1---sn-",  # Chrome dictionary & browser-related downloads
+                "r3---sn-",  # Chrome dictionary
+                "encore.scdn.co/fonts/",  # Spotify fonts
+                "www-growth.scdn.co/_next/static/",  # Spotify static tracking scripts
+            ]
             if request.url.endswith(('.jpg', '.png', '.gif', '.css')):
             # if request.url.endswith(('.png', '.jpg', '.jpeg', '.gif', '.svg', '.css', '.woff', '.woff2', '.ttf')):
                 request.abort()
-            if "optimizationguide-pa.googleapis.com" in request.url or "googletagmanager.com" in request.url:
-                # print(f"Blocking request: {request.url}")
-                request.abort()  # Stop the request
+            # if "optimizationguide-pa.googleapis.com" in request.url or "googletagmanager.com" in request.url:
+            #     # print(f"Blocking request: {request.url}")
+            #     request.abort()  # Stop the request
+            if any(domain in request.url for domain in BLOCKED_DOMAINS):
+                print(f"Blocking request (domain): {request.url}")
+                request.abort()
 
         self.driver = driver
         self.driver.request_interceptor = block_unwanted_requests
