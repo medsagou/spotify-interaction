@@ -296,6 +296,15 @@ def main():
 
         exit()
 
+def run_threads(num_threads):
+    """Runs 'num_threads' in parallel and waits for all to complete."""
+    with concurrent.futures.ThreadPoolExecutor(max_workers=num_threads) as executor:
+        futures = {executor.submit(main) for _ in range(num_threads)}
+
+        # Wait for all threads to finish
+        concurrent.futures.wait(futures, return_when=concurrent.futures.ALL_COMPLETED)
+
+        print("All threads completed.")
 
 
 if __name__ == "__main__":
@@ -303,27 +312,43 @@ if __name__ == "__main__":
     # main()
     # exit()
     n = int(input("Enter the number of threads : "))
+    # f = input("full (y/n) : ")
 
     if n < 1 :
         print("Invalid number")
     else:
-        with concurrent.futures.ThreadPoolExecutor(max_workers=n) as executor:
-            futures = {executor.submit(main) for _ in range(n)}
+        if n == account_num:
+            while True:
+                if done_counter == account_num:
+                    print("Finished")
+                    exit()
+                else:
+                    print("Runing Threads...")
+                    run_threads(account_num-done_counter)
 
-            while not stop_event.is_set():
-                done, _ = concurrent.futures.wait(futures, return_when=concurrent.futures.FIRST_COMPLETED)
-                print(f"Active Threads: {len(futures)}")
-                for future in done:
-                    futures.remove(future)
 
-                    if stop_event.is_set():
-                        break
 
-                    futures.add(executor.submit(main))
+                # Check if we should stop before restarting
+                # if stop_event.is_set():
+                #     break
+        else:
+            with concurrent.futures.ThreadPoolExecutor(max_workers=n) as executor:
+                futures = {executor.submit(main) for _ in range(n)}
 
-                time.sleep(2)
+                while not stop_event.is_set():
+                    done, _ = concurrent.futures.wait(futures, return_when=concurrent.futures.FIRST_COMPLETED)
+                    print(f"Active Threads: {len(futures)}")
+                    for future in done:
+                        futures.remove(future)
 
-        print("All threads stopped. Exiting program.")
+                        if stop_event.is_set():
+                            break
+
+                        futures.add(executor.submit(main))
+
+                    time.sleep(2)
+
+            print("All threads stopped. Exiting program.")
 # if __name__ == "__main__":
 #     # asyncio.run(main())
 #     # main()
