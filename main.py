@@ -302,10 +302,10 @@ if __name__ == "__main__":
     print("Starting...")
     # main()
     # exit()
-    n = int(input("Enter the number of threads (1-4): "))
+    n = int(input("Enter the number of threads : "))
 
-    if n < 1 or n > 4:
-        print("Invalid number, choose between 1 and 4.")
+    if n < 1 :
+        print("Invalid number")
     else:
         with concurrent.futures.ThreadPoolExecutor(max_workers=n) as executor:
             futures = {executor.submit(main) for _ in range(n)}
