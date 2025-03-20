@@ -153,7 +153,7 @@ class SpotifyGenerator:
                 "r1---sn-",  # Chrome dictionary & browser-related downloads
                 "r3---sn-",  # Chrome dictionary
                 "encore.scdn.co/fonts/",  # Spotify fonts
-                "www-growth.scdn.co/_next/static/",  # Spotify static tracking scripts
+                # "www-growth.scdn.co/_next/static/",  # Spotify static tracking scripts
             ]
             if request.url.endswith(('.jpg', '.png', '.gif', '.css')):
             # if request.url.endswith(('.png', '.jpg', '.jpeg', '.gif', '.svg', '.css', '.woff', '.woff2', '.ttf')):
