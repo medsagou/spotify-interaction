@@ -112,12 +112,16 @@ def fill_address(driver, address):
                         WebDriverWait(driver, 5).until(
                             EC.invisibility_of_element_located((By.XPATH, '//*[@id="confirm-address-dialog"]/footer/button[2]'))
                         )
-                    except:
+                    except Exception as e:
+                        print('line 116 main', e)
                         # actions = ActionChains(driver)
                         # actions.move_to_element(
                         #     driver.find_element(By.XPATH, '//*[@id="confirm-address-dialog"]/footer/button[2]')).pause(
                         #     0.5).click().perform()
-                        driver.find_element(By.XPATH, '//*[@id="confirm-address-dialog"]/footer/button[2]').click()
+                        try:
+                            driver.find_element(By.XPATH, '//*[@id="confirm-address-dialog"]/footer/button[2]').click()
+                        except Exception as e:
+                            print('line 124 main,', e)
                         print("form confirmed again")
                     else:
                         break
@@ -232,8 +236,8 @@ def main():
         print("ENOUGH ACCOUNT QUITING...")
         return
     fill_address(driver=sp.driver, address=address)
-    print('sleeping...120')
-    time.sleep(120)
+    # print('sleeping...120')
+    # time.sleep(120)
 
 
     # sp.driver.save_screenshot('screenshot_filename2.png')
