@@ -154,8 +154,8 @@ def main():
 
     # sp.get_driver(user=USER, password=PASSWORD, proxy=PROXY, port=PORT)
 
-    thread1 = threading.Thread(target=sp.get_driver, args=(USER, PASSWORD, PROXY, PORT))
-    # thread1 = threading.Thread(target=sp.get_driver)
+    # thread1 = threading.Thread(target=sp.get_driver, args=(USER, PASSWORD, PROXY, PORT))
+    thread1 = threading.Thread(target=sp.get_driver)
     thread2 = threading.Thread(target=sp.get_Email_from_yopmail)
     # thread22 = threading.Thread(target=main)
 
@@ -300,10 +300,7 @@ def run_threads(num_threads):
     """Runs 'num_threads' in parallel and waits for all to complete."""
     with concurrent.futures.ThreadPoolExecutor(max_workers=num_threads) as executor:
         futures = {executor.submit(main) for _ in range(num_threads)}
-
-        # Wait for all threads to finish
         concurrent.futures.wait(futures, return_when=concurrent.futures.ALL_COMPLETED)
-
         print("All threads completed.")
 
 
