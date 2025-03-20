@@ -101,6 +101,8 @@ def fill_address(driver, address):
                 )
             except:
                 print("NOTE: No confirm there")
+                driver.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
+                print("form submitted again")
             else:
                 while True:
                     actions = ActionChains(driver)
@@ -218,6 +220,7 @@ def main():
     sp.check_login_signup()
     # saving the account
     sp.save_data()
+    sp.remove_descrections()
     if stop_event.is_set():
         sp.quit()
         print("ENOUGH ACCOUNT QUITING...")
@@ -229,6 +232,9 @@ def main():
         print("ENOUGH ACCOUNT QUITING...")
         return
     fill_address(driver=sp.driver, address=address)
+    print('sleeping...120')
+    time.sleep(120)
+
 
     # sp.driver.save_screenshot('screenshot_filename2.png')
 

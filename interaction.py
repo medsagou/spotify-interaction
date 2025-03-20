@@ -55,27 +55,27 @@ class SpotifyGenerator:
 
         # Convert bytes to MB
         total_mb = total_bytes / (1024 * 1024)
-        total_data = 0
-        requests_data = []
+        # total_data = 0
+        # requests_data = []
 
-        for request in self.driver.requests:
-            if request.response:
-                request_size = len(request.body) if request.body else 0
-                response_size = len(request.response.body) if request.response.body else 0
-                total_size = request_size + response_size
-                total_data += total_size
-
-                # Save request details
-                requests_data.append((request.url, total_size))
-
-        # Sort by highest usage
-        requests_data.sort(key=lambda x: x[1], reverse=True)
-
-        # Print the top requests consuming the most data
-        print(f"Total data usage: {total_data / 1024:.2f} KB")
-        print("Top data-consuming requests:")
-        for url, size in requests_data[:10]:  # Show top 5 largest requests
-            print(f"{url} → {size / 1024:.2f} KB")
+        # for request in self.driver.requests:
+        #     if request.response:
+        #         request_size = len(request.body) if request.body else 0
+        #         response_size = len(request.response.body) if request.response.body else 0
+        #         total_size = request_size + response_size
+        #         total_data += total_size
+        #
+        #         # Save request details
+        #         requests_data.append((request.url, total_size))
+        #
+        # # Sort by highest usage
+        # requests_data.sort(key=lambda x: x[1], reverse=True)
+        #
+        # # Print the top requests consuming the most data
+        # print(f"Total data usage: {total_data / 1024:.2f} KB")
+        # print("Top data-consuming requests:")
+        # for url, size in requests_data[:10]:  # Show top 5 largest requests
+        #     print(f"{url} → {size / 1024:.2f} KB")
 
         print(f"Total Data Transferred: {total_mb:.2f} MB")
         return total_mb
@@ -143,8 +143,8 @@ class SpotifyGenerator:
 
 
         def block_unwanted_requests(request):
-            # if request.url.endswith(('.jpg', '.png', '.gif', '.css')):
-            if request.url.endswith(('.png', '.jpg', '.jpeg', '.gif', '.svg', '.css', '.woff', '.woff2', '.ttf')):
+            if request.url.endswith(('.jpg', '.png', '.gif', '.css')):
+            # if request.url.endswith(('.png', '.jpg', '.jpeg', '.gif', '.svg', '.css', '.woff', '.woff2', '.ttf')):
                 request.abort()
             if "optimizationguide-pa.googleapis.com" in request.url or "googletagmanager.com" in request.url:
                 # print(f"Blocking request: {request.url}")
