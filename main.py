@@ -71,17 +71,17 @@ def fill_address(driver, address):
         else:
             stop_event.set()
             print("YOU LINK IS FULL, WILL TRY TO GET NEW LINK NEXT TIME...")
-        # print("-------------------------------------------------------------------------------------")
-        # print(driver.find_element("tag name", "body").text)
-        # print("-------------------------------------------------------------------------------------")
-        total_bytes = sum(len(request.response.body) for request in driver.requests if request.response)
+            # print("-------------------------------------------------------------------------------------")
+            # print(driver.find_element("tag name", "body").text)
+            # print("-------------------------------------------------------------------------------------")
+            total_bytes = sum(len(request.response.body) for request in driver.requests if request.response)
 
-        # Convert bytes to MB
-        total_mb = total_bytes / (1024 * 1024)
+            # Convert bytes to MB
+            total_mb = total_bytes / (1024 * 1024)
 
-        print(f"Total Data Transferred: {total_mb:.2f} MB")
-        driver.quit()
-        exit()
+            print(f"Total Data Transferred: {total_mb:.2f} MB")
+            driver.quit()
+            exit()
     else:
         driver.find_element(By.XPATH, '//*[@id="address"]').send_keys(address)
         print("address fieled")
@@ -111,10 +111,11 @@ def fill_address(driver, address):
                             EC.invisibility_of_element_located((By.XPATH, '//*[@id="confirm-address-dialog"]/footer/button[2]'))
                         )
                     except:
-                        actions = ActionChains(driver)
-                        actions.move_to_element(
-                            driver.find_element(By.XPATH, '//*[@id="confirm-address-dialog"]/footer/button[2]')).pause(
-                            0.5).click().perform()
+                        # actions = ActionChains(driver)
+                        # actions.move_to_element(
+                        #     driver.find_element(By.XPATH, '//*[@id="confirm-address-dialog"]/footer/button[2]')).pause(
+                        #     0.5).click().perform()
+                        driver.find_element(By.XPATH, '//*[@id="confirm-address-dialog"]/footer/button[2]').click()
                         print("form confirmed again")
                     else:
                         break
@@ -147,8 +148,8 @@ def main():
 
     # sp.get_driver(user=USER, password=PASSWORD, proxy=PROXY, port=PORT)
 
-    # thread1 = threading.Thread(target=sp.get_driver, args=(USER, PASSWORD, PROXY, PORT))
-    thread1 = threading.Thread(target=sp.get_driver)
+    thread1 = threading.Thread(target=sp.get_driver, args=(USER, PASSWORD, PROXY, PORT))
+    # thread1 = threading.Thread(target=sp.get_driver)
     thread2 = threading.Thread(target=sp.get_Email_from_yopmail)
     # thread22 = threading.Thread(target=main)
 

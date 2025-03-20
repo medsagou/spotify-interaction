@@ -74,7 +74,7 @@ class SpotifyGenerator:
         # Print the top requests consuming the most data
         print(f"Total data usage: {total_data / 1024:.2f} KB")
         print("Top data-consuming requests:")
-        for url, size in requests_data[:5]:  # Show top 5 largest requests
+        for url, size in requests_data[:10]:  # Show top 5 largest requests
             print(f"{url} → {size / 1024:.2f} KB")
 
         print(f"Total Data Transferred: {total_mb:.2f} MB")
@@ -146,6 +146,9 @@ class SpotifyGenerator:
             # if request.url.endswith(('.jpg', '.png', '.gif', '.css')):
             if request.url.endswith(('.png', '.jpg', '.jpeg', '.gif', '.svg', '.css', '.woff', '.woff2', '.ttf')):
                 request.abort()
+            if "optimizationguide-pa.googleapis.com" in request.url or "googletagmanager.com" in request.url:
+                # print(f"Blocking request: {request.url}")
+                request.abort()  # Stop the request
 
         self.driver = driver
         self.driver.request_interceptor = block_unwanted_requests
@@ -186,6 +189,7 @@ class SpotifyGenerator:
                     self.submit()
                 except:
                     print("Sign up button not found")
+                    self.quit()
                     exit()
 
             try:
@@ -635,7 +639,8 @@ class SpotifyGenerator:
         addressList = addressFile.Fichier_to_Liste()
         if len(addressList) != 4:
             print("ERROR: THE ADDRESS FILE NOT COMPLETED")
-            exit
+            self.quit()
+            exit()
         try:
             WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.ID, "address-street"))
