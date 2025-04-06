@@ -16,6 +16,9 @@ from dotenv import load_dotenv
 # PORT = str(os.getenv("PORT"))
 #
 
+
+
+
 def get_playlist_link():
     playlist_link = []
     # get account
@@ -32,10 +35,10 @@ def get_playlist_link():
         if test.lower() == "y":
             PROXY, PORT, USER, PASSWORD = input("Enter your proxy (ip:port:user:pass): ").strip().split(":")
             print(USER, PASSWORD, PROXY, PORT)
-            sp.get_driver(user=USER, password=PASSWORD, proxy=PROXY, port=PORT)
+            sp.get_driver(user=USER, password=PASSWORD, proxy=PROXY, port=PORT, get_playlist=True)
             break
         elif test.lower() == "n":
-            sp.get_driver()
+            sp.get_driver(get_playlist=True)
             break
 
     sp.get_site(site='https://www.spotify.com/login')
@@ -49,6 +52,7 @@ def get_playlist_link():
 
     print("Getting the Site")
     sp.get_site('https://open.spotify.com/')
+
 
 
 
@@ -85,19 +89,42 @@ def get_playlist_link():
     print("Getting Liked song link...")
     sp.get_site("https://open.spotify.com/collection/tracks")
 
+    liked_songs_div = WebDriverWait(sp.driver, 30).until(
+        EC.presence_of_element_located((By.CSS_SELECTOR, 'div[aria-label="Liked Songs"]'))
+    )
+
+    # Get the aria-rowcount attribute
+    row_count = int(liked_songs_div.get_attribute("aria-rowcount"))
+    if row_count == 0:
+        return
+    print("You have :", row_count, "songs")
+    liked_songs = set()
     while True:
+        # scroll_to_buttom(driver=sp.driver)
         _ = WebDriverWait(sp.driver,40).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'a[data-testid="internal-track-link"]')))
         links = sp.driver.find_elements(By.CSS_SELECTOR, 'a[data-testid="internal-track-link"]')
-        hrefs = [link.get_attribute("href") for link in links]
-        if hrefs != []:
-            for h in hrefs:
-                print(h)
+        for link in links:
+            liked_songs.add(link.get_attribute("href"))
+        print(liked_songs)
+        element = sp.driver.find_element("css selector", f"[aria-rowindex='{len(liked_songs)}']")
+        sp.driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", element)
+        time.sleep(3)
+        # print(len(liked_songs))
+        # print(row_count-1)
+        if len(liked_songs) == row_count-1:
             break
+
+    if liked_songs:
+        for h in liked_songs:
+            print(h)
+
+
+    # time.sleep(200)
         # time.sleep(2)
 
     # Print the extracted links
     # print(hrefs)
-    playlist_link.extend(hrefs)
+    playlist_link.extend(liked_songs)
     playlist_file = C_Fichier("playlists.txt")
     playlist_file.list_to_fichier(playlist_link)
     print(playlist_link)

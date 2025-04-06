@@ -24,12 +24,12 @@ import os
 # from capmonstercloudclient.requests import RecaptchaV2ProxylessRequest
 
 
-# LINK = os.getenv("LINK")
+
 # USER = str(os.getenv("USER_PORXY"))
 # PASSWORD = str(os.getenv("PASSWORD"))
 # PROXY = str(os.getenv("PROXY"))
 # PORT = str(os.getenv("PORT"))
-# address = str(os.getenv("ADDRESS"))
+
 stop_event = threading.Event()
 done_counter = 0
 counter_lock = threading.Lock()
@@ -40,13 +40,15 @@ if input("use env? (y/n)").strip().lower() == "y":
     load_dotenv()
     try:
         PROXY, PORT, USER, PASSWORD = os.getenv("PROXY").strip().split(":")
+        LINK = os.getenv("LINK")
+        address = str(os.getenv("ADDRESS"))
     except:
         print("Env not working, check your .env file and try again or:")
         PROXY, PORT, USER, PASSWORD = input("Enter your proxy (ip:port:user:pass): ").strip().split(":")
 else:
     PROXY, PORT, USER, PASSWORD = input("Enter your proxy (ip:port:user:pass): ").strip().split(":")
-LINK = input("Enter your family joining link: ")
-address = input("Enter your address joining : ")
+    LINK = input("Enter your family joining link: ")
+    address = input("Enter your address joining : ")
 account_num = int(input("How many accounts you want to create: "))
 print("The Link is :", LINK)
 print("Address :", address)
@@ -154,8 +156,8 @@ def main():
 
     # sp.get_driver(user=USER, password=PASSWORD, proxy=PROXY, port=PORT)
 
-    # thread1 = threading.Thread(target=sp.get_driver, args=(USER, PASSWORD, PROXY, PORT))
-    thread1 = threading.Thread(target=sp.get_driver)
+    thread1 = threading.Thread(target=sp.get_driver, args=(USER, PASSWORD, PROXY, PORT))
+    # thread1 = threading.Thread(target=sp.get_driver)
     thread2 = threading.Thread(target=sp.get_Email_from_yopmail)
     # thread22 = threading.Thread(target=main)
 
@@ -224,6 +226,8 @@ def main():
     sp.check_login_signup()
     # saving the account
     sp.save_data()
+    print(sp.email, sp.password)
+
     sp.remove_descrections()
     if stop_event.is_set():
         sp.quit()

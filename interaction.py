@@ -40,6 +40,7 @@ class SpotifyGenerator:
         self.address_file_name = "address.txt"
         self.retry_count = 0
         self.print_success = False
+        self.get_playlist = False
 
     # def generate_password(self):
     #     chars = string.ascii_letters + string.digits + string.punctuation
@@ -95,7 +96,8 @@ class SpotifyGenerator:
         password.insert(insert_position, punctuation_char)
 
         return ''.join(password)
-    def get_driver(self, user="", password="", proxy="", port=""):
+    def get_driver(self, user="", password="", proxy="", port="", get_playlist=False):
+        self.get_playlist = get_playlist
         options = webdriver.ChromeOptions()
         options.add_argument("--load-extension={0}".format(curr_dir + "/CapSolver"))
         options.add_argument("--lang=en")
@@ -103,16 +105,18 @@ class SpotifyGenerator:
         options.add_argument("--disable-gpu")
         options.add_argument("--disable-images")
         options.add_argument("--enable-features=NetworkService,NetworkServiceInProcess")
-        mobile_ua = "Mozilla/5.0 (Linux; Android 10; Pixel 3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.210 Mobile Safari/537.36"
-        options.add_argument(f"user-agent={mobile_ua}")
+
         options.add_argument("--log-level=3")
 
-        mobile_emulation = {
-            "deviceMetrics": {"width": 375, "height": 812, "pixelRatio": 3},
-            "userAgent": "Mozilla/5.0 (Linux; Android 10; Pixel 3)"
-        }
-
-        options.add_experimental_option("mobileEmulation", mobile_emulation)
+        if not self.get_playlist:
+            mobile_emulation = {
+                "deviceMetrics": {"width": 375, "height": 812, "pixelRatio": 3},
+                "userAgent": "Mozilla/5.0 (Linux; Android 10; Pixel 3)"
+            }
+            #
+            options.add_experimental_option("mobileEmulation", mobile_emulation)
+            mobile_ua = "Mozilla/5.0 (Linux; Android 10; Pixel 3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.210 Mobile Safari/537.36"
+            options.add_argument(f"user-agent={mobile_ua}")
 
         # options.add_argument("--disk-cache-size=4096")
         # options.add_argument("--disk-cache-dir=/tmp/cache")
@@ -139,7 +143,9 @@ class SpotifyGenerator:
                 },
                 # 'disable_encoding': True,
             }
+            print("Connecting driver using proxy...: ", user, password, proxy, port)
             driver = webdriver.Chrome(seleniumwire_options=proxy_options, options=options, service=service)
+
 
 
         def block_unwanted_requests(request):
@@ -156,9 +162,10 @@ class SpotifyGenerator:
                 "gvt1.com/edgedl/chrome/dict/",
                 # "www-growth.scdn.co/_next/static/",  # Spotify static tracking scripts
             ]
-            if request.url.endswith(('.jpg', '.png', '.gif', '.css')):
-            # if request.url.endswith(('.png', '.jpg', '.jpeg', '.gif', '.svg', '.css', '.woff', '.woff2', '.ttf')):
-                request.abort()
+            if not self.get_playlist:
+                if request.url.endswith(('.jpg', '.png', '.gif', '.css')):
+                # if request.url.endswith(('.png', '.jpg', '.jpeg', '.gif', '.svg', '.css', '.woff', '.woff2', '.ttf')):
+                    request.abort()
             # if "optimizationguide-pa.googleapis.com" in request.url or "googletagmanager.com" in request.url:
             #     # print(f"Blocking request: {request.url}")
             #     request.abort()  # Stop the request
@@ -213,7 +220,11 @@ class SpotifyGenerator:
                     EC.invisibility_of_element_located((By.XPATH, "//*[contains(text(), 'Terms')]"))
                 )
             except:
+
                 print("still looping")
+                # print("-------------------------------------------------------------------------------------")
+                # print(self.driver.find_element("tag name", "body").text)
+                # print("-------------------------------------------------------------------------------------")
             else:
                 break
         try:
