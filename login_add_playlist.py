@@ -70,7 +70,7 @@ def get_playlist_link():
                 time.sleep(1)
     else:
         print("No links to add")
-    sp.calculate_usage()
+    # sp.calculate_usage()
     sp.quit()
     return
     # return playlist_link
