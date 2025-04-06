@@ -170,7 +170,7 @@ class SpotifyGenerator:
             #     # print(f"Blocking request: {request.url}")
             #     request.abort()  # Stop the request
             if any(domain in request.url for domain in BLOCKED_DOMAINS):
-                print(f"Blocking request (domain): {request.url}")
+                # print(f"Blocking request (domain): {request.url}")
                 request.abort()
 
         self.driver = driver
