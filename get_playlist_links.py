@@ -70,6 +70,7 @@ def get_playlist_link():
         for li in list_items:
             try:
                 div = li.find_element(By.TAG_NAME, "div")
+                print(div)
                 aria_labelledby = div.get_attribute("aria-labelledby")
                 if aria_labelledby:
                     labels.append(aria_labelledby)
