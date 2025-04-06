@@ -73,7 +73,8 @@ def get_playlist_link():
                 if aria_labelledby:
                     labels.append(aria_labelledby)
                     print(aria_labelledby)
-            except:
+            except Exception as e:
+                # print(e, 'Line 77, get_playlist_links.py')
                 pass
         time.sleep(1)
         if labels != []:
