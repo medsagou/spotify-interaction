@@ -80,7 +80,7 @@ def get_playlist_link():
             break
     playlist_link = []
     for label in labels:
-        if "collection" in label:
+        if "collection" in label or "artist" in label:
             continue
         playlist_link.append("https://open.spotify.com/playlist/"+label.split(":")[-1])
     # print(playlist_link)
