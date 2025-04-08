@@ -166,12 +166,17 @@ class SpotifyGenerator:
                 if request.url.endswith(('.jpg', '.png', '.gif', '.css')):
                 # if request.url.endswith(('.png', '.jpg', '.jpeg', '.gif', '.svg', '.css', '.woff', '.woff2', '.ttf')):
                     request.abort()
+            else:
+                if request.url.endswith(('.jpg', '.png', '.gif')):
+                    # if request.url.endswith(('.png', '.jpg', '.jpeg', '.gif', '.svg', '.css', '.woff', '.woff2', '.ttf')):
+                    request.abort()
             # if "optimizationguide-pa.googleapis.com" in request.url or "googletagmanager.com" in request.url:
             #     # print(f"Blocking request: {request.url}")
             #     request.abort()  # Stop the request
             if any(domain in request.url for domain in BLOCKED_DOMAINS):
                 # print(f"Blocking request (domain): {request.url}")
                 request.abort()
+
 
         self.driver = driver
         self.driver.request_interceptor = block_unwanted_requests
@@ -390,7 +395,7 @@ class SpotifyGenerator:
         except Exception as e:
             if self.retry_count >= 3:
                 print("3 attempts reached. Exiting script. (starting new account)")
-                self.calculate_usage()
+                # self.calculate_usage()
                 self.quit()
                 exit()
             self.retry_count += 1
@@ -406,7 +411,7 @@ class SpotifyGenerator:
             if not self.print_success:
                 print("Login/signup success")
                 self.print_success = True
-                self.calculate_usage()
+                # self.calculate_usage()
                 if login == 0:
                     return True
 

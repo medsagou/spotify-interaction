@@ -57,30 +57,41 @@ def get_playlist_link():
 
 
     # Extract the aria-labelledby from the <div> inside each <li>
-    labels = []
+    labels = set()
     print("Start lopping...")
     # print("-------------------------------------------------------------------------------------")
     # print(sp.driver.find_element("tag name", "body").text)
     # print("-------------------------------------------------------------------------------------")
     test = False
+    aria_setsize = None
     while True:
         ul = WebDriverWait(sp.driver,30).until(EC.presence_of_element_located((By.CSS_SELECTOR, 'ul[aria-label="Your Library"]')))
         list_items = ul.find_elements(By.TAG_NAME, "li")
         print("looping through the list...\n note: if this take too much just restart the script".upper())
         for li in list_items:
             try:
+                if aria_setsize is None:
+                    aria_setsize = int(li.get_attribute("aria-setsize"))
                 div = li.find_element(By.TAG_NAME, "div")
-                print(div)
+                # print(div)
                 aria_labelledby = div.get_attribute("aria-labelledby")
                 if aria_labelledby:
-                    labels.append(aria_labelledby)
-                    print(aria_labelledby)
+                    labels.add(aria_labelledby)
+                    # print(aria_labelledby)
             except Exception as e:
                 # print(e, 'Line 77, get_playlist_links.py')
                 pass
-        time.sleep(1)
-        if labels != []:
+        if len(labels) == 0:
+            continue
+        # print(len(labels))
+        element = sp.driver.find_element("css selector", f"[aria-posinset='{len(labels)}']")
+        sp.driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", element)
+        print(str(len(labels))+"/"+str(aria_setsize))
+        if len(labels) == aria_setsize:
+            print(labels)
             break
+        time.sleep(1)
+
     playlist_link = []
     for label in labels:
         if "collection" in label or "artist" in label:
@@ -95,14 +106,14 @@ def get_playlist_link():
             sp.get_site("https://open.spotify.com/collection/tracks")
 
             liked_songs_div = WebDriverWait(sp.driver, 30).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, 'div[aria-label="Liked Songs"]'))
+                EC.presence_of_element_located((By.CSS_SELECTOR, 'div[aria-label="Liked Songs"][role="grid"]'))
             )
 
             # Get the aria-rowcount attribute
             row_count = int(liked_songs_div.get_attribute("aria-rowcount"))
             if row_count == 0:
                 return
-            print("You have :", row_count, "songs")
+            print("You have :", row_count-1, "songs")
             liked_songs = set()
             while True:
                 # scroll_to_buttom(driver=sp.driver)
@@ -110,18 +121,19 @@ def get_playlist_link():
                 links = sp.driver.find_elements(By.CSS_SELECTOR, 'a[data-testid="internal-track-link"]')
                 for link in links:
                     liked_songs.add(link.get_attribute("href"))
-                print(liked_songs)
+                # print(liked_songs)
                 element = sp.driver.find_element("css selector", f"[aria-rowindex='{len(liked_songs)}']")
                 sp.driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", element)
                 time.sleep(3)
                 # print(len(liked_songs))
                 # print(row_count-1)
+                print(str(len(liked_songs)) + "/" + str(row_count-1))
                 if len(liked_songs) == row_count-1:
                     break
 
-            if liked_songs:
-                for h in liked_songs:
-                    print(h)
+            # if liked_songs:
+            #     for h in liked_songs:
+            #         print(h)
 
 
             # time.sleep(200)
@@ -132,7 +144,7 @@ def get_playlist_link():
             playlist_link.extend(liked_songs)
     playlist_file = C_Fichier("playlists.txt")
     playlist_file.list_to_fichier(playlist_link)
-    print(playlist_link)
+    print(len(playlist_link), 'Playlists and songs links!')
     print("playlists links saved successfully")
     # time.sleep(100)
     sp.quit()
