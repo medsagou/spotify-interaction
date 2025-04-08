@@ -77,3 +77,10 @@ Contributions are welcome! If you’d like to add a feature or fix a bug:
 ├── requirements.txt     # Python dependencies
 └── README.md            # Project documentation
    ```
+
+## Author
+
+- Website - [Mohamed Sagou](https://github.com/medsagou)
+- Frontend Mentor - [@medsagou](https://www.frontendmentor.io/profile/medsagou)
+- Twitter - [@sagoumohamed](https://www.twitter.com/sagoumohamed)
+- instagram - [@medsagou](https://www.instagram.com/medsagou)
