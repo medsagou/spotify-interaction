@@ -98,7 +98,10 @@ def get_playlist_link():
             if "collection" in label:
                 test = True
             continue
-        playlist_link.append("https://open.spotify.com/playlist/"+label.split(":")[-1])
+        elif "playlist" in label:
+            playlist_link.append("https://open.spotify.com/playlist/"+label.split(":")[-1])
+        else:
+            print(label)
     # print(playlist_link)
 
     if test:

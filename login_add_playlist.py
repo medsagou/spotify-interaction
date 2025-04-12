@@ -58,10 +58,13 @@ def get_playlist_link():
                     EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[data-testid="add-button"]')))
             except Exception as e:
                 print("Eroor:", link)
+                with open("errored_links.txt", 'a') as f:
+                    f.write(link)
+                    f.write('\n')
                 print("-------------------------------------------------------------------------------------")
                 print(sp.driver.find_element("tag name", "body").text)
                 print("-------------------------------------------------------------------------------------")
-                print(e)
+                # print(e)
                 continue
             else:
                 button = sp.driver.find_element(By.CSS_SELECTOR, 'button[data-testid="add-button"]')

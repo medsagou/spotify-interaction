@@ -23,12 +23,21 @@ def worker(link, cookies, local_storage):
 
     try:
         # Open the site first so we can set cookies
-        sp.driver.get("https://open.spotify.com")
+        sp.driver.get("https://www.spotify.com")  # This matches the domain where login was performed
 
-        # Add cookies
+        # Filter cookies for the current domain
         for cookie in cookies:
-            sp.driver.add_cookie(cookie)
-
+            # Some cookies might be for open.spotify.com or www.spotify.com
+            # We must ensure we're setting cookies only for the current domain
+            if "spotify.com" in cookie.get("domain", ""):
+                # Adjust domain to current one if necessary
+                cookie["domain"] = ".spotify.com"
+                try:
+                    sp.driver.add_cookie(cookie)
+                except Exception as e:
+                    print(f"Error adding cookie {cookie.get('name')}: {e}")
+        print('sleeping')
+        time.sleep(20)
         # Set localStorage
         sp.driver.execute_script(f"""
             var items = JSON.parse('{local_storage}');
@@ -36,6 +45,8 @@ def worker(link, cookies, local_storage):
                 localStorage.setItem(key, items[key]);
             }}
         """)
+
+        time.sleep(200)
 
         sp.driver.get(link)
 
@@ -48,7 +59,8 @@ def worker(link, cookies, local_storage):
         except Exception as e:
             print("Failed:", link)
             print(e)
-
+    except Exception as e:
+        print(e)
     finally:
         sp.quit()
 
@@ -85,8 +97,11 @@ def get_playlist_link():
         return
 
     # Multithreading
-    with ThreadPoolExecutor(max_workers=4) as executor:
+    with ThreadPoolExecutor(max_workers=1) as executor:
         for link in playlist_links:
             executor.submit(worker, link, cookies, local_storage)
 
     sp.quit()
+
+if __name__ == '__main__':
+    get_playlist_link()
